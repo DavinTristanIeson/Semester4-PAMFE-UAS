@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memoir/views/main.dart';
+import 'package:memoir/views/login/main.dart';
 
 void main() {
   runApp(const MemoirApp());
@@ -16,7 +16,7 @@ class MemoirApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "Inter",
       ),
-      home: const MainPage(),
+      home: const LoginPage(),
     );
   }
 }
