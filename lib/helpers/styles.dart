@@ -57,6 +57,17 @@ const TEXT_DETAIL = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w300,
 );
+const TEXT_ERROR = TextStyle(
+  fontSize: FS_DEFAULT,
+  color: COLOR_DANGER,
+  fontWeight: FontWeight.w500,
+);
+const TEXT_ERROR_IMPORTANT = TextStyle(
+  fontSize: FS_LARGE,
+  color: COLOR_DANGER,
+  fontWeight: FontWeight.bold,
+  shadows: SHADOW_TEXT,
+);
 const TEXT_SMALL_DETAIL = TextStyle(
   fontSize: FS_SMALL,
   color: COLOR_ON_PRIMARY,

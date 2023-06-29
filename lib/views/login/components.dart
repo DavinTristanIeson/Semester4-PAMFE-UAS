@@ -35,6 +35,12 @@ class _FadedCircleState extends State<FadedCircle>
   }
 
   @override
+  void dispose() {
+    _animation.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
         animation: _animation,

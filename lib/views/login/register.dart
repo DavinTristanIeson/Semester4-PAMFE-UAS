@@ -1,26 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:memoir/components/display/info.dart';
 import 'package:memoir/components/wrapper/input.dart';
 import 'package:memoir/components/wrapper/touchable.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/helpers/validators.dart';
+import 'package:memoir/models/app.dart';
 import 'package:memoir/views/login/components.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/account.dart';
 
 GlobalKey<FormBuilderState> _registerFormKey = GlobalKey();
 
-class RegisterForm extends StatelessWidget {
+class RegisterForm extends StatelessWidget with SnackbarMessenger {
   final void Function() onSwitch;
   const RegisterForm({super.key, required this.onSwitch});
 
-  void submit() {
-    if (_registerFormKey.currentState == null)
+  void submit(BuildContext context) {
+    if (_registerFormKey.currentState == null) {
       throw Exception(
           "Cannot find register form in the Widget tree. Did you forget to put the key into the register form?");
+    }
     final FormBuilderState state = _registerFormKey.currentState!;
     if (!state.validate()) return;
 
-    print(state.fields.values.map((x) => x.value));
+    Account account = Account(
+      email: state.fields["email"]!.value,
+      password: state.fields["password"]!.value,
+      name: state.fields["name"]!.value,
+      birthdate: state.fields["birthdate"]!.value,
+      bio: state.fields["bio"]!.value,
+      pfp: state.fields["pfp"]!.value,
+    );
+    final collection = context.read<AccountCollection>();
+    final result = collection.register(account);
+    if (result == RegisterResult.HasDuplicate) {
+      sendError(context, result.message!);
+    }
+    final appState = context.read<AppStateProvider>();
+    appState.account = account;
   }
 
   @override
@@ -65,7 +85,7 @@ class RegisterForm extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: GAP_LG, bottom: GAP),
               child: ElevatedButton(
-                onPressed: submit,
+                onPressed: () => submit(context),
                 style: BUTTON_PRIMARY,
                 child: const Text("Register"),
               ),

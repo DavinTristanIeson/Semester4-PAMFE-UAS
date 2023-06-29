@@ -5,12 +5,16 @@ const Color COLOR_ON_PRIMARY = Color(0xFFFFFFFF);
 const Color COLOR_SECONDARY = Color(0xFFA2C9DE);
 const Color COLOR_DISABLED = Color(0xFFD9D9D9);
 const Color COLOR_SUCCESS = Color(0xFF4FE066);
+const Color COLOR_SUCCESS_CONTAINER = Color.fromARGB(255, 132, 235, 149);
 const Color COLOR_DANGER = Color.fromARGB(255, 228, 57, 57);
+const Color COLOR_DANGER_CONTAINER = Color.fromARGB(255, 238, 118, 118);
 const Color COLOR_LINK = Color(0xFF3498DB);
 
 const Color COLOR_FADED_75 = Color.fromRGBO(255, 255, 255, 0.75);
 const Color COLOR_FADED_50 = Color.fromRGBO(255, 255, 255, 0.5);
 const Color COLOR_FADED_25 = Color.fromRGBO(255, 255, 255, 0.25);
+
+const Color COLOR_DARKEN_50 = Color.fromRGBO(0, 0, 0, 0.5);
 
 // Font Size
 const double FS_SMALL = 10.0;

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/helpers/constants.dart';
+import 'package:memoir/models/account.dart';
+import 'package:memoir/models/app.dart';
 import 'package:memoir/views/login/main.dart';
+import 'package:memoir/views/main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MemoirApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => AppStateProvider()),
+    ChangeNotifierProvider(create: (context) => AccountCollection()),
+  ], child: const MemoirApp()));
 }
 
 class MemoirApp extends StatelessWidget {
@@ -12,6 +19,7 @@ class MemoirApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppStateProvider>();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -19,7 +27,7 @@ class MemoirApp extends StatelessWidget {
         fontFamily: "Inter",
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const LoginPage(),
+      home: appState.account == null ? const LoginPage() : const MainPage(),
     );
   }
 }

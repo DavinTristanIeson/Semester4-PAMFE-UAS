@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:memoir/components/wrapper/touchable.dart';
 import 'package:memoir/helpers/strings.dart';
 import 'package:memoir/helpers/styles.dart';
 
@@ -146,7 +145,7 @@ class ImageInputField extends StatelessWidget {
       bottom: 0,
       right: 0,
       child: Container(
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+          decoration: const BoxDecoration(color: COLOR_DARKEN_50),
           padding: const EdgeInsets.all(GAP),
           child: Text(title.trimBeyond(40), style: TEXT_SMALL_DETAIL)),
     );
@@ -189,7 +188,17 @@ class ImageInputField extends StatelessWidget {
                   children: [
                     buildImageBody(field.value),
                     if (field.value?.name != null)
-                      buildImageName(field.value!.name)
+                      buildImageName(field.value!.name),
+                    if (field.errorText != null)
+                      Positioned.fill(
+                        child: Container(
+                            decoration: const BoxDecoration(
+                              color: COLOR_DARKEN_50,
+                            ),
+                            child: Center(
+                                child: Text(field.errorText!,
+                                    style: TEXT_ERROR_IMPORTANT))),
+                      ),
                   ],
                 ));
           }),
