@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/views/login/main.dart';
 
 void main() {
@@ -14,7 +15,9 @@ class MemoirApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        primaryColor: COLOR_PRIMARY,
         fontFamily: "Inter",
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: const LoginPage(),
     );

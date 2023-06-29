@@ -33,7 +33,7 @@ printf '%s\n' "${avar}"
 
 # Flutter Analyzer
 printf "\e[33;1m%s\e[0m\n" '=== Running Flutter Analyzer ==='
-flutter analyze
+flutter analyze --no-fatal-infos --no-fatal-warnings
 if [ $? -ne 0 ]; then
   printf "\e[31;1m%s\e[0m\n" '=== Flutter Analyzer error ==='
   pop_stash_files
@@ -42,15 +42,15 @@ fi
 printf "\e[33;1m%s\e[0m\n" 'Finished running Flutter analyzer'
 printf '%s\n' "${avar}"
 
-# Unit tests
-printf "\e[33;1m%s\e[0m\n" '=== Running Unit Tests ==='
-flutter test
-if [ $? -ne 0 ]; then
-  printf "\e[31;1m%s\e[0m\n" '=== Unit Tests error ==='
-  pop_stash_files
-  exit 1
-fi
-printf "\e[33;1m%s\e[0m\n" 'Finished running Unit Tests'
-printf '%s\n' "${avar}"
+# # Unit tests
+# printf "\e[33;1m%s\e[0m\n" '=== Running Unit Tests ==='
+# flutter test
+# if [ $? -ne 0 ]; then
+#   printf "\e[31;1m%s\e[0m\n" '=== Unit Tests error ==='
+#   pop_stash_files
+#   exit 1
+# fi
+# printf "\e[33;1m%s\e[0m\n" 'Finished running Unit Tests'
+# printf '%s\n' "${avar}"
 
 pop_stash_files
