@@ -79,7 +79,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
               name: "pfp",
               label: "Profile Picture",
               height: 300,
-              placeholder: "Choose your pfp",
+              placeholder: "Choose your profile picture",
               validator: isNotEmpty("Profile picture is required"),
             ),
             Padding(

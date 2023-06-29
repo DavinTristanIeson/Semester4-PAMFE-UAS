@@ -7,6 +7,16 @@ const VGRADIENT_PRIMARY_FADE = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
+const VGRADIENT_APPBAR = LinearGradient(
+  colors: [COLOR_PRIMARY, Color.fromARGB(255, 159, 217, 251)],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+);
+const VGRADIENT_BOTTOM_NAVBAR = LinearGradient(
+  colors: [COLOR_PRIMARY, Color.fromARGB(255, 159, 217, 251)],
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+);
 const VGRADIENT_DISABLED_FADE = LinearGradient(
   colors: [COLOR_DISABLED, Colors.white],
   begin: Alignment.topCenter,
@@ -34,6 +44,7 @@ final ELLIPTICAL_SHAPE =
 const BORDER_INPUT = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(BR_DEFAULT)),
     borderSide: BorderSide(color: Colors.black, width: 4.0));
+final BORDER_THICK = Border.all(color: Colors.black, width: 8.0);
 
 final BUTTON_PRIMARY = ElevatedButton.styleFrom(
     backgroundColor: COLOR_PRIMARY,
@@ -42,6 +53,11 @@ final BUTTON_PRIMARY = ElevatedButton.styleFrom(
     padding:
         const EdgeInsets.symmetric(vertical: GAP_LG, horizontal: GAP_XL * 2));
 
+const TEXT_DEFAULT = TextStyle(
+  fontSize: FS_DEFAULT,
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+);
 const TEXT_BTN_PRIMARY = TextStyle(
   fontSize: FS_EMPHASIS,
   color: COLOR_ON_PRIMARY,

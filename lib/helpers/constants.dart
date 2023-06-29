@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 const Color COLOR_PRIMARY = Color(0xFF4FACE0);
 const Color COLOR_ON_PRIMARY = Color(0xFFFFFFFF);
-const Color COLOR_SECONDARY = Color(0xFFA2C9DE);
+const Color COLOR_SECONDARY = Color.fromARGB(255, 189, 232, 255);
 const Color COLOR_DISABLED = Color(0xFFD9D9D9);
 const Color COLOR_SUCCESS = Color(0xFF4FE066);
 const Color COLOR_SUCCESS_CONTAINER = Color.fromARGB(255, 132, 235, 149);
@@ -25,8 +25,8 @@ const double FS_DISPLAY = 48.0;
 
 // Border Radius
 const double BR_SMALL = 4.0;
-const double BR_DEFAULT = 8.0;
-const double BR_LARGE = 16.0;
+const double BR_DEFAULT = 10.0;
+const double BR_LARGE = 20.0;
 
 // Spacing
 const double GAP_SM = 4.0;

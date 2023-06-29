@@ -23,10 +23,22 @@ class MemoirApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: COLOR_PRIMARY,
-        fontFamily: "Inter",
-        scaffoldBackgroundColor: Colors.white,
-      ),
+          primaryColor: COLOR_PRIMARY,
+          fontFamily: "Inter",
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: COLOR_PRIMARY,
+            foregroundColor: COLOR_SECONDARY,
+          ),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              backgroundColor: COLOR_PRIMARY,
+              selectedItemColor: Colors.white,
+              selectedLabelStyle: TextStyle(
+                fontSize: FS_DEFAULT,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontSize: FS_DEFAULT - 2,
+              ))),
       home: appState.account == null ? const LoginPage() : const MainPage(),
     );
   }

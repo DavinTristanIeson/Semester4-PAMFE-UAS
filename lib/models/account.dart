@@ -44,6 +44,14 @@ class Account extends Identifiable {
     _password = Account.hash(newPassword);
     return true;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return other is Account && other.id == id;
+  }
+
+  @override
+  int get hashCode => id;
 }
 
 enum AccountQueryResult {
