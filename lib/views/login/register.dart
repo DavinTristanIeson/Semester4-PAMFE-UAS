@@ -3,14 +3,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:memoir/components/wrapper/input.dart';
 import 'package:memoir/components/wrapper/touchable.dart';
+import 'package:memoir/controller/account.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/helpers/validators.dart';
-import 'package:memoir/models/app.dart';
 import 'package:memoir/views/login/components.dart';
 import 'package:provider/provider.dart';
 
+import '../../controller/common.dart';
 import '../../models/account.dart';
+import '../../models/app.dart';
+import '../../models/common.dart';
 
 GlobalKey<FormBuilderState> _registerFormKey = GlobalKey();
 
@@ -18,7 +21,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
   final void Function() onSwitch;
   const RegisterForm({super.key, required this.onSwitch});
 
-  void submit(BuildContext context) {
+  Future<void> submit(BuildContext context) async {
     if (_registerFormKey.currentState == null) {
       throw Exception(
           "Cannot find register form in the Widget tree. Did you forget to put the key into the register form?");
@@ -26,20 +29,28 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
     final FormBuilderState state = _registerFormKey.currentState!;
     if (!state.validate()) return;
 
+    if (!AccountController.canRegister(state.fields["email"]!.value)) {
+      sendError(context, "Another account already exists with the same email");
+      return;
+    }
+
     Account account = Account(
       email: state.fields["email"]!.value,
-      password: state.fields["password"]!.value,
+      password: Account.hash(state.fields["password"]!.value).toString(),
       name: state.fields["name"]!.value,
       birthdate: state.fields["birthdate"]!.value,
       bio: state.fields["bio"]!.value,
-      pfp: state.fields["pfp"]!.value,
+      pfp: state.fields["pfp"]!.value.path,
     );
-    final collection = context.read<AccountCollection>();
-    final result = collection.register(account);
-    if (result == RegisterResult.HasDuplicate) {
-      sendError(context, result.message!);
-    }
     final appState = context.read<AppStateProvider>();
+    try {
+      AccountController.register(account);
+    } on UserException catch (e) {
+      sendError(context, e.message);
+      return;
+    }
+
+    account.pfp = (await saveImage(state.fields["pfp"]!.value)).path;
     appState.account = account;
   }
 
@@ -58,6 +69,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
                 name: "password",
                 validator: validatePassword,
                 label: "Password",
+                obscureText: true,
                 placeholder: "Enter your password"),
             const TextInputField(
                 name: "name",
@@ -80,7 +92,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
               label: "Profile Picture",
               height: 300,
               placeholder: "Choose your profile picture",
-              validator: isNotEmpty("Profile picture is required"),
+              validator: noValidate,
             ),
             Padding(
               padding: const EdgeInsets.only(top: GAP_LG, bottom: GAP),

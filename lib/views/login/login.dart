@@ -3,13 +3,15 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:memoir/components/wrapper/input.dart';
 import 'package:memoir/components/wrapper/touchable.dart';
+import 'package:memoir/controller/account.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/helpers/validators.dart';
-import 'package:memoir/models/account.dart';
-import 'package:memoir/models/app.dart';
 import 'package:memoir/views/login/components.dart';
 import 'package:provider/provider.dart';
+
+import '../../models/app.dart';
+import '../../models/common.dart';
 
 GlobalKey<FormBuilderState> _loginFormKey = GlobalKey();
 
@@ -25,15 +27,14 @@ class LoginForm extends StatelessWidget with SnackbarMessenger {
     final FormBuilderState state = _loginFormKey.currentState!;
     if (!state.validate()) return;
 
-    final collection = context.read<AccountCollection>();
-    final result = collection.login(
-        state.fields["email"]!.value, state.fields["password"]!.value);
-    if (result.status != AccountQueryResult.Ok) {
-      sendError(context, result.status.message!);
-      return;
-    }
     final appState = context.read<AppStateProvider>();
-    appState.account = result.data;
+    try {
+      final result = AccountController.login(
+          state.fields["email"]!.value, state.fields["password"]!.value);
+      appState.account = result;
+    } on UserException catch (e) {
+      sendError(context, e.message);
+    }
   }
 
   @override

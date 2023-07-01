@@ -52,19 +52,21 @@ class FlashcardSetCard extends StatelessWidget {
                               fontSize: FS_DEFAULT,
                               fontWeight: FontWeight.bold,
                             )),
-                        TextSpan(text: set.owner.name, style: TEXT_DEFAULT),
+                        TextSpan(
+                            text: set.owner.target!.name, style: TEXT_DEFAULT),
                       ])),
-                      Padding(
-                          padding:
-                              const EdgeInsets.only(top: GAP, bottom: GAP_LG),
-                          child: Text(set.description, style: TEXT_DEFAULT)),
+                      if (set.description != null)
+                        Padding(
+                            padding:
+                                const EdgeInsets.only(top: GAP, bottom: GAP_LG),
+                            child: Text(set.description!, style: TEXT_DEFAULT)),
                       Wrap(
                         children:
                             set.tags.map<Tag>((tag) => Tag(tag: tag)).toList(),
                       )
                     ],
                   ),
-                  MaybeFileImage(image: set.thumbnail),
+                  MaybeFileImage(image: set.image),
                 ],
               ),
               Row(

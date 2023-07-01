@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/helpers/constants.dart';
-import 'package:memoir/models/account.dart';
 import 'package:memoir/models/app.dart';
 import 'package:memoir/views/login/main.dart';
 import 'package:memoir/views/main.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'controller/common.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializeStore();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => AppStateProvider()),
-    ChangeNotifierProvider(create: (context) => AccountCollection()),
   ], child: const MemoirApp()));
 }
 

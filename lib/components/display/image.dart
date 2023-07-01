@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
@@ -30,7 +29,7 @@ class ImageContainer extends StatelessWidget {
 }
 
 class MaybeFileImage extends StatelessWidget {
-  final XFile? image;
+  final File? image;
   final double? width;
   final double? height;
   const MaybeFileImage(
@@ -39,18 +38,41 @@ class MaybeFileImage extends StatelessWidget {
       this.width = double.maxFinite,
       this.height = double.maxFinite});
 
+  Widget buildNoImage() {
+    return const Center(
+      child: Text("NO IMAGE",
+          style: TextStyle(
+            color: Colors.black54,
+            fontSize: FS_LARGE,
+          )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (image == null) {
+      return ImageContainer(child: buildNoImage());
+    }
     return ImageContainer(
-        child: image != null
-            ? Image.file(File(image!.path),
-                width: width, height: height, fit: BoxFit.cover)
-            : const Center(
-                child: Text("NO IMAGE",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: FS_LARGE,
-                    )),
-              ));
+        width: width,
+        height: height,
+        child: FutureBuilder(
+            future: image!.exists(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                case ConnectionState.active:
+                  return const CircularProgressIndicator();
+                case ConnectionState.none:
+                  return buildNoImage();
+                case ConnectionState.done:
+                  if (snapshot.data!) {
+                    return Image.file(File(image!.path),
+                        width: width, height: height, fit: BoxFit.cover);
+                  } else {
+                    return buildNoImage();
+                  }
+              }
+            }));
   }
 }

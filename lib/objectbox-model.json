@@ -1,0 +1,158 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:4818160610413105469",
+      "lastPropertyId": "5:5407336271656545299",
+      "name": "Flashcard",
+      "properties": [
+        {
+          "id": "1:3368872130441130063",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1603708615975343393",
+          "name": "question",
+          "type": 9
+        },
+        {
+          "id": "3:5939598581568045169",
+          "name": "answer",
+          "type": 9
+        },
+        {
+          "id": "4:843501066883015714",
+          "name": "parentId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:1190642246719451861",
+          "relationTarget": "FlashcardSet"
+        },
+        {
+          "id": "5:5407336271656545299",
+          "name": "thumbnail",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7945606195991614981",
+      "lastPropertyId": "7:4350670804287184399",
+      "name": "FlashcardSet",
+      "properties": [
+        {
+          "id": "1:950435967169002691",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5834376414501617424",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:7599372250744060008",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:2277072232015528175",
+          "name": "tags",
+          "type": 30
+        },
+        {
+          "id": "5:6901921446852602487",
+          "name": "thumbnail",
+          "type": 9
+        },
+        {
+          "id": "6:7110498159054993641",
+          "name": "isPublic",
+          "type": 1
+        },
+        {
+          "id": "7:4350670804287184399",
+          "name": "ownerId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:5479124557187373560",
+          "relationTarget": "Account"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:8615782653611655959",
+      "lastPropertyId": "7:5417340396356395842",
+      "name": "Account",
+      "properties": [
+        {
+          "id": "1:4516267392438925792",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8487224679201968772",
+          "name": "email",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "3:5797852947804213502"
+        },
+        {
+          "id": "3:8225705550483709912",
+          "name": "password",
+          "type": 9
+        },
+        {
+          "id": "4:1483771813399468534",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:2862253975826736454",
+          "name": "bio",
+          "type": 9
+        },
+        {
+          "id": "6:6818522169921655843",
+          "name": "birthdate",
+          "type": 10
+        },
+        {
+          "id": "7:5417340396356395842",
+          "name": "pfp",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "4:8615782653611655959",
+  "lastIndexId": "3:5797852947804213502",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    1358794399486850844
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    672620879874470722,
+    3272166809863817827,
+    8582081827390608210,
+    1450239756035814960,
+    8772167545121940690,
+    2358402651173503301,
+    6937287615097722939
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
