@@ -34,8 +34,105 @@ mixin SnackbarMessenger {
               color: COLOR_SUCCESS,
               fontWeight: FontWeight.bold,
             )),
-        backgroundColor: COLOR_SUCCESS_CONTAINER,
+        backgroundColor: const Color.fromARGB(255, 226, 255, 230),
       ));
     });
+  }
+}
+
+class LoadingComponent extends StatelessWidget {
+  const LoadingComponent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+          constraints: BoxConstraints.loose(const Size.square(100.0)),
+          padding: const EdgeInsets.all(GAP_LG),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100.0),
+            color: Colors.black.withOpacity(0.5),
+          ),
+          alignment: Alignment.center,
+          child: const CircularProgressIndicator()),
+    );
+  }
+}
+
+class ErrorMessage extends StatelessWidget {
+  final String reason;
+  final Widget? child;
+  const ErrorMessage({super.key, required this.reason, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(GAP_LG),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.7),
+        ),
+        alignment: Alignment.center,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Icon(
+            Icons.error,
+            color: COLOR_DANGER,
+            size: 48,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: GAP_LG),
+            child: Text(reason,
+                style: const TextStyle(
+                    color: COLOR_DANGER,
+                    fontFamily: "Josefin Sans",
+                    fontSize: 16)),
+          ),
+          if (child != null) child!
+        ]),
+      ),
+    );
+  }
+}
+
+class ErrorComponent extends StatelessWidget {
+  final String? reason;
+  final Widget? child;
+  const ErrorComponent({super.key, this.reason, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(GAP_LG),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100.0),
+          color: Colors.black.withOpacity(0.5),
+        ),
+        alignment: Alignment.center,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          const Icon(
+            Icons.error,
+            color: COLOR_DANGER,
+            size: 48,
+          ),
+          const Text(UNEXPECTED_ERROR,
+              style: TextStyle(
+                  color: COLOR_DANGER,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Josefin Sans",
+                  fontSize: 18)),
+          if (reason != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: GAP_LG),
+              child: Text(reason!,
+                  style: const TextStyle(
+                      color: COLOR_DANGER,
+                      fontFamily: "Josefin Sans",
+                      fontSize: 16)),
+            ),
+          if (child != null) child!
+        ]),
+      ),
+    );
   }
 }

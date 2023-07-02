@@ -21,16 +21,24 @@ Future<Store> initializeStore() async {
   Directory imageDirectory = Directory(await getImageStoragePath());
   await storageDirectory.create();
   await imageDirectory.create();
-  store = openStore(
+  store = await openStore(
     directory: await getStoragePath(),
   );
   return store;
 }
 
-Future<File> saveImage(XFile image) async {
+Future<File> saveImage(XFile image, {String? former}) async {
+  if (image.path == former) {
+    return File(image.path);
+  }
+
   String location = await getImageStoragePath();
-  return await File(image.path)
+  final result = await File(image.path)
       .copy('$location/${DateTime.now().millisecondsSinceEpoch}_${image.name}');
+  if (former != null) {
+    await deleteImage(former);
+  }
+  return result;
 }
 
 Future<bool> deleteImage(String path) async {

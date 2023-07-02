@@ -40,7 +40,10 @@ class MemoirApp extends StatelessWidget {
               ),
               unselectedLabelStyle: TextStyle(
                 fontSize: FS_DEFAULT - 2,
-              ))),
+              )),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: COLOR_PRIMARY,
+          )),
       home: appState.account == null ? const LoginPage() : const MainPage(),
     );
   }

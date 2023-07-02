@@ -8,13 +8,9 @@ class Flashcard {
   int id;
   String question;
   String answer;
-  String? thumbnail;
   final parent = ToOne<FlashcardSet>();
 
-  Flashcard(this.question, this.answer, {this.id = 0, this.thumbnail});
-  copy() {
-    return Flashcard(question, answer, thumbnail: thumbnail);
-  }
+  Flashcard(this.question, this.answer, {this.id = 0});
 }
 
 @Entity()
@@ -45,7 +41,7 @@ class FlashcardSet {
     return thumbnail != null ? File(thumbnail!) : null;
   }
 
-  canModify(Account target) {
+  canBeModified(Account target) {
     return target.id == owner.target!.id;
   }
 }

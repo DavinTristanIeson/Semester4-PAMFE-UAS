@@ -12,6 +12,12 @@ const VGRADIENT_APPBAR = LinearGradient(
   begin: Alignment.topCenter,
   end: Alignment.bottomCenter,
 );
+const VGRADIENT_CARD = LinearGradient(
+  colors: [Colors.white, Color.fromARGB(255, 225, 245, 255)],
+  stops: [0.6, 0.7],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
 const VGRADIENT_BOTTOM_NAVBAR = LinearGradient(
   colors: [COLOR_PRIMARY, Color.fromARGB(255, 159, 217, 251)],
   begin: Alignment.bottomCenter,
@@ -38,24 +44,36 @@ const BOX_SHADOW_DEFAULT = [
 ];
 
 const CIRCLE_SHAPE = CircleBorder(side: BorderSide.none);
-final ELLIPTICAL_SHAPE =
-    RoundedRectangleBorder(borderRadius: BorderRadius.circular(BR_LARGE));
 
 const BORDER_INPUT = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(BR_DEFAULT)),
     borderSide: BorderSide(color: Colors.black, width: 4.0));
-final BORDER_THICK = Border.all(color: Colors.black, width: 8.0);
+final BORDER_THICK = Border.all(color: Colors.black, width: 4.0);
 
 final BUTTON_PRIMARY = ElevatedButton.styleFrom(
-    backgroundColor: COLOR_PRIMARY,
-    shape: ELLIPTICAL_SHAPE,
-    textStyle: TEXT_BTN_PRIMARY,
-    padding:
-        const EdgeInsets.symmetric(vertical: GAP_LG, horizontal: GAP_XL * 2));
+  backgroundColor: COLOR_PRIMARY,
+  shape: const StadiumBorder(),
+  textStyle: TEXT_BTN_PRIMARY,
+);
+final BUTTON_SUCCESS = ElevatedButton.styleFrom(
+  backgroundColor: COLOR_SUCCESS,
+  shape: const StadiumBorder(),
+  textStyle: TEXT_BTN_PRIMARY,
+);
+final BUTTON_DANGER = ElevatedButton.styleFrom(
+  backgroundColor: COLOR_DANGER,
+  shape: const StadiumBorder(),
+  textStyle: TEXT_BTN_PRIMARY,
+);
 
 const TEXT_DEFAULT = TextStyle(
   fontSize: FS_DEFAULT,
   color: Colors.black,
+  fontWeight: FontWeight.w400,
+);
+const TEXT_DISABLED = TextStyle(
+  fontSize: FS_DEFAULT,
+  color: Colors.black54,
   fontWeight: FontWeight.w400,
 );
 const TEXT_BTN_PRIMARY = TextStyle(

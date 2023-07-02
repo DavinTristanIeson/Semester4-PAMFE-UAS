@@ -38,7 +38,7 @@ class OverInkwell extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              splashColor: splashColor ?? COLOR_SECONDARY,
+              splashColor: splashColor,
               onTap: onTap,
             ),
           ),

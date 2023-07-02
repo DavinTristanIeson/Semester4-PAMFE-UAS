@@ -8,10 +8,10 @@ import 'package:memoir/helpers/styles.dart';
 
 import '../../helpers/constants.dart';
 
-class _InputFieldLabel extends StatelessWidget {
+class InputFieldLabel extends StatelessWidget {
   final Widget child;
   final String label;
-  const _InputFieldLabel({required this.child, required this.label});
+  const InputFieldLabel({super.key, required this.child, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,7 @@ class TextInputField extends StatelessWidget {
   final String name;
   final String? Function(String?) validator;
   final String label;
+  final String? initialValue;
   final String? placeholder;
   final bool? obscureText;
   final bool? isTextarea;
@@ -43,15 +44,17 @@ class TextInputField extends StatelessWidget {
     this.placeholder,
     this.obscureText,
     this.isTextarea,
+    this.initialValue,
   });
   @override
   Widget build(BuildContext context) {
-    return _InputFieldLabel(
+    return InputFieldLabel(
       label: label,
       child: FormBuilderTextField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         name: name,
         validator: validator,
+        initialValue: initialValue,
         decoration: InputDecoration(
           hintText: placeholder,
           border: BORDER_INPUT,
@@ -70,8 +73,9 @@ class TextInputField extends StatelessWidget {
   }
 }
 
-class DateTimeInputField extends StatelessWidget {
+class DateTimeInputField extends StatefulWidget {
   final String name;
+  final DateTime? initialValue;
   final String? Function(DateTime?) validator;
   final String label;
   final String? placeholder;
@@ -80,7 +84,26 @@ class DateTimeInputField extends StatelessWidget {
       required this.name,
       required this.label,
       this.placeholder,
-      required this.validator});
+      required this.validator,
+      this.initialValue});
+
+  @override
+  State<DateTimeInputField> createState() => _DateTimeInputFieldState();
+}
+
+class _DateTimeInputFieldState extends State<DateTimeInputField> {
+  late final TextEditingController _controller;
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   Future<DateTime?> getDate(BuildContext context, DateTime? value) {
     const FOUR_YEARS = Duration(days: 365 * 4);
@@ -94,25 +117,27 @@ class DateTimeInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InputFieldLabel(
-      label: label,
+    return InputFieldLabel(
+      label: widget.label,
       child: FormBuilderField<DateTime>(
-          name: name,
-          validator: validator,
+          name: widget.name,
+          validator: widget.validator,
+          initialValue: widget.initialValue,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           builder: (state) {
             String? value = state.value != null
                 ? "${state.value!.day.pad0(2)}/${state.value!.month.pad0(2)}/${state.value!.year.pad0(4)}"
                 : null;
+            _controller.text = value ?? "";
             return InkWell(
               onTap: () async {
                 state.didChange(await getDate(context, state.value));
               },
               child: TextField(
                 enabled: false,
-                controller: TextEditingController(text: value),
+                controller: _controller,
                 decoration: InputDecoration(
-                  hintText: placeholder,
+                  hintText: widget.placeholder,
                   border: BORDER_INPUT,
                   fillColor: Colors.white,
                   filled: true,
@@ -127,6 +152,7 @@ class DateTimeInputField extends StatelessWidget {
 
 class ImageInputField extends StatelessWidget {
   final String name;
+  final XFile? initialValue;
   final ImagePicker _picker = ImagePicker();
   final String? Function(XFile?) validator;
   final String label;
@@ -138,7 +164,8 @@ class ImageInputField extends StatelessWidget {
       required this.label,
       this.height = 300.0,
       this.placeholder,
-      required this.validator});
+      required this.validator,
+      this.initialValue});
 
   Widget buildImageName(String title) {
     return Positioned(
@@ -153,9 +180,11 @@ class ImageInputField extends StatelessWidget {
 
   Widget buildImageBody(XFile? image) {
     return Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(GAP)),
-            gradient: VGRADIENT_DISABLED_FADE),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(GAP)),
+          gradient: VGRADIENT_DISABLED_FADE,
+          border: Border.all(color: Colors.black54, width: 1.0),
+        ),
         height: height,
         child: Center(
             child: image != null
@@ -171,10 +200,11 @@ class ImageInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _InputFieldLabel(
+    return InputFieldLabel(
       label: label,
       child: FormBuilderField<XFile>(
           name: name,
+          initialValue: initialValue,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           builder: (FormFieldState<XFile> field) {
@@ -203,5 +233,32 @@ class ImageInputField extends StatelessWidget {
                 ));
           }),
     );
+  }
+}
+
+class SwitchInputField extends StatelessWidget {
+  final String name;
+  final String label;
+  final bool? initialValue;
+  const SwitchInputField(
+      {super.key, required this.name, required this.label, this.initialValue});
+
+  @override
+  Widget build(BuildContext context) {
+    return FormBuilderField<bool>(
+        name: name,
+        initialValue: initialValue,
+        builder: (state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(label, style: TEXT_IMPORTANT),
+              Switch(
+                value: state.value ?? false,
+                onChanged: state.didChange,
+              )
+            ],
+          );
+        });
   }
 }

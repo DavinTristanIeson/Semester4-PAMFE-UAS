@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:memoir/components/display/info.dart';
 
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
@@ -10,10 +11,7 @@ class ImageContainer extends StatelessWidget {
   final double? height;
   final Widget child;
   const ImageContainer(
-      {super.key,
-      required this.child,
-      this.width = double.maxFinite,
-      this.height = double.maxFinite});
+      {super.key, required this.child, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +30,7 @@ class MaybeFileImage extends StatelessWidget {
   final File? image;
   final double? width;
   final double? height;
-  const MaybeFileImage(
-      {super.key,
-      this.image,
-      this.width = double.maxFinite,
-      this.height = double.maxFinite});
+  const MaybeFileImage({super.key, this.image, this.width, this.height});
 
   Widget buildNoImage() {
     return const Center(
@@ -62,7 +56,7 @@ class MaybeFileImage extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                 case ConnectionState.active:
-                  return const CircularProgressIndicator();
+                  return const LoadingComponent();
                 case ConnectionState.none:
                   return buildNoImage();
                 case ConnectionState.done:

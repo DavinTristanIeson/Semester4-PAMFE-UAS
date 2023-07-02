@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:memoir/components/display/text.dart';
+import 'package:memoir/components/wrapper/gradient.dart';
+import 'package:memoir/models/app.dart';
 import 'package:memoir/views/browse/main.dart';
 import 'package:memoir/views/mine/main.dart';
+import 'package:memoir/views/mine/scaffold.dart';
 import 'package:memoir/views/profile/main.dart';
+import 'package:provider/provider.dart';
 
-import '../helpers/constants.dart';
-import '../helpers/styles.dart';
+import '../models/account.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -25,39 +29,17 @@ enum MainPageView {
 class _MainPageState extends State<MainPage> {
   MainPageView page = MainPageView.MyFlashcards;
   PreferredSize buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: Container(
-        decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(BR_LARGE),
-              bottomRight: Radius.circular(BR_LARGE),
-            ),
-            gradient: VGRADIENT_APPBAR),
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text("MEMOIR",
-              style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 0.9),
-                shadows: SHADOW_TEXT,
-                fontSize: FS_LARGE,
-                fontWeight: FontWeight.w300,
-              )),
-        ),
+    return AppBarGradient(
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const MemoirBrand(),
       ),
     );
   }
 
   Widget buildBottomNavBar() {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(BR_LARGE),
-          topRight: Radius.circular(BR_LARGE),
-        ),
-        gradient: VGRADIENT_BOTTOM_NAVBAR,
-      ),
+    return BottomNavigationBarGradient(
       child: BottomNavigationBar(
         onTap: (select) {
           setState(() {
@@ -78,11 +60,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buildView() {
+    Account account = context.watch<AppStateProvider>().account!;
     switch (page) {
       case MainPageView.Browse:
-        return const BrowseView();
+        return BrowseView(account: account);
       case MainPageView.MyFlashcards:
-        return const MyFlashcardsView();
+        return MyFlashcardsView(
+          account: account,
+        );
       case MainPageView.Profile:
         return const ProfileView();
     }
@@ -94,6 +79,8 @@ class _MainPageState extends State<MainPage> {
       appBar: buildAppBar(),
       body: buildView(),
       bottomNavigationBar: buildBottomNavBar(),
+      floatingActionButton:
+          page == MainPageView.MyFlashcards ? const CreateFlashcardFAB() : null,
     );
   }
 }

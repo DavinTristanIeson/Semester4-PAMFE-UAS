@@ -94,7 +94,9 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
               placeholder: "Choose your profile picture",
               validator: noValidate,
             ),
-            Padding(
+            Container(
+              width: double.maxFinite,
+              height: 64.0,
               padding: const EdgeInsets.only(top: GAP_LG, bottom: GAP),
               child: ElevatedButton(
                 onPressed: () => submit(context),

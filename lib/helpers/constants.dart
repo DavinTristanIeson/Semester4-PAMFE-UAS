@@ -5,7 +5,7 @@ const Color COLOR_ON_PRIMARY = Color(0xFFFFFFFF);
 const Color COLOR_SECONDARY = Color.fromARGB(255, 189, 232, 255);
 const Color COLOR_DISABLED = Color(0xFFD9D9D9);
 const Color COLOR_SUCCESS = Color(0xFF4FE066);
-const Color COLOR_SUCCESS_CONTAINER = Color.fromARGB(255, 132, 235, 149);
+const Color COLOR_SUCCESS_CONTAINER = Color.fromARGB(255, 226, 255, 230);
 const Color COLOR_DANGER = Color.fromARGB(255, 228, 57, 57);
 const Color COLOR_DANGER_CONTAINER = Color.fromARGB(255, 238, 118, 118);
 const Color COLOR_LINK = Color(0xFF3498DB);
@@ -29,7 +29,10 @@ const double BR_DEFAULT = 10.0;
 const double BR_LARGE = 20.0;
 
 // Spacing
+const double GAP_XS = 2.0;
 const double GAP_SM = 4.0;
 const double GAP = 8.0;
 const double GAP_LG = 16.0;
 const double GAP_XL = 32.0;
+
+const String UNEXPECTED_ERROR = "An unexpected error has occurred.";

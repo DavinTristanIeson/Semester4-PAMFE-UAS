@@ -7,18 +7,33 @@ import '../../models/flashcards.dart';
 
 class Tag extends StatelessWidget {
   final String tag;
-  const Tag({super.key, required this.tag});
+  final void Function()? onDelete;
+  const Tag({super.key, required this.tag, this.onDelete});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: COLOR_DISABLED,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: GAP_SM),
+      child: InkWell(
+        onTap: onDelete,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: COLOR_DISABLED,
+            borderRadius: BorderRadius.all(Radius.circular(BR_SMALL)),
+          ),
+          padding:
+              const EdgeInsets.symmetric(vertical: GAP_SM, horizontal: GAP),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("#$tag"),
+              const SizedBox(width: GAP_SM),
+              if (onDelete != null) const Icon(Icons.close, size: 16),
+            ],
+          ),
+        ),
       ),
-      child: Text.rich(TextSpan(children: [
-        const TextSpan(text: '#', style: TEXT_SMALL_DETAIL),
-        TextSpan(text: tag, style: TEXT_SMALL_DETAIL)
-      ])),
     );
   }
 }
@@ -32,49 +47,74 @@ class FlashcardSetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
-          decoration: BoxDecoration(
-              border: BORDER_THICK,
-              borderRadius: const BorderRadius.all(Radius.circular(BR_LARGE))),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      Text(set.title, style: TEXT_IMPORTANT),
-                      Text.rich(TextSpan(children: [
-                        const TextSpan(
-                            text: "by: ",
-                            style: TextStyle(
-                              fontSize: FS_DEFAULT,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        TextSpan(
-                            text: set.owner.target!.name, style: TEXT_DEFAULT),
-                      ])),
-                      if (set.description != null)
-                        Padding(
-                            padding:
-                                const EdgeInsets.only(top: GAP, bottom: GAP_LG),
-                            child: Text(set.description!, style: TEXT_DEFAULT)),
-                      Wrap(
-                        children:
-                            set.tags.map<Tag>((tag) => Tag(tag: tag)).toList(),
-                      )
-                    ],
-                  ),
-                  MaybeFileImage(image: set.image),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: actions,
-              )
-            ],
-          )),
+        decoration: BoxDecoration(
+            border: BORDER_THICK,
+            gradient: VGRADIENT_CARD,
+            borderRadius: const BorderRadius.all(Radius.circular(BR_LARGE))),
+        padding: const EdgeInsets.all(GAP),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildCardDetails(),
+            const Divider(
+              color: Colors.black,
+              thickness: GAP_XS,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: actions,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row buildCardDetails() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          flex: 3,
+          child: buildCardMetadata(),
+        ),
+        Flexible(flex: 1, child: MaybeFileImage(image: set.image)),
+      ],
+    );
+  }
+
+  Column buildCardMetadata() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: GAP),
+        Text(set.title, style: TEXT_IMPORTANT),
+        Text.rich(TextSpan(children: [
+          const TextSpan(
+              text: "by: ",
+              style: TextStyle(
+                fontSize: FS_DEFAULT,
+                fontWeight: FontWeight.bold,
+              )),
+          TextSpan(
+              text: set.owner.target == null
+                  ? "Deleted User"
+                  : set.owner.target!.name,
+              style: set.owner.target == null ? TEXT_DISABLED : TEXT_DEFAULT),
+        ])),
+        if (set.description != null)
+          Padding(
+              padding: const EdgeInsets.only(top: GAP, bottom: GAP_LG),
+              child: Text(set.description!, style: TEXT_DEFAULT)),
+        Wrap(
+          children: set.tags.map<Tag>((tag) => Tag(tag: tag)).toList(),
+        )
+      ],
     );
   }
 }
