@@ -40,7 +40,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
       name: state.fields["name"]!.value,
       birthdate: state.fields["birthdate"]!.value,
       bio: state.fields["bio"]!.value,
-      pfp: state.fields["pfp"]!.value.path,
+      pfp: state.fields["pfp"]!.value?.path,
     );
     final appState = context.read<AppStateProvider>();
     try {
@@ -50,7 +50,9 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
       return;
     }
 
-    account.pfp = (await saveImage(state.fields["pfp"]!.value)).path;
+    account.pfp = state.fields["pfp"]!.value != null
+        ? (await saveImage(state.fields["pfp"]!.value)).path
+        : null;
     appState.account = account;
   }
 

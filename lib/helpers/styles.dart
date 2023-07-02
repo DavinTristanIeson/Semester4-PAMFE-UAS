@@ -38,7 +38,7 @@ const SHADOW_TEXT = [
 const BOX_SHADOW_DEFAULT = [
   BoxShadow(
     blurRadius: 3,
-    offset: Offset(4.0, 5.0),
+    offset: Offset(2.0, 3.0),
     color: Color.fromRGBO(0, 0, 0, 0.2),
   )
 ];

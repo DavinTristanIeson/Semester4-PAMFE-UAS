@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/components/display/flashcard.dart';
-import 'package:memoir/components/display/future.dart';
 import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/models/flashcards.dart';
 
+import '../../components/function/future.dart';
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
 import '../../models/account.dart';
@@ -28,10 +28,9 @@ class BrowseView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AsyncRender(
-        future: FlashcardsController.getPublicFlashcards(account),
-        builder: (context, data) {
-          List<FlashcardSet> sets = data ?? [];
+    return QueryObserver(
+        query: FlashcardsController.queryPublicFlashcards(account),
+        builder: (context, sets) {
           return ListView.builder(
               shrinkWrap: true,
               itemCount: sets.length,

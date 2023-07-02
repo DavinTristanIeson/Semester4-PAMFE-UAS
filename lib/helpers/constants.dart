@@ -15,6 +15,7 @@ const Color COLOR_FADED_50 = Color.fromRGBO(255, 255, 255, 0.5);
 const Color COLOR_FADED_25 = Color.fromRGBO(255, 255, 255, 0.25);
 
 const Color COLOR_DARKEN_50 = Color.fromRGBO(0, 0, 0, 0.5);
+const Color COLOR_DARKEN_25 = Color.fromRGBO(0, 0, 0, 0.25);
 
 // Font Size
 const double FS_SMALL = 10.0;

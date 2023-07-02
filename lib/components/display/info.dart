@@ -7,7 +7,10 @@ mixin SnackbarMessenger {
   void sendMessage(BuildContext context, String message) {
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      messenger.showSnackBar(SnackBar(content: Text(message)));
+      messenger.showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
+        content: Text(message),
+      ));
     });
   }
 
@@ -15,6 +18,7 @@ mixin SnackbarMessenger {
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       messenger.showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(message,
             style: const TextStyle(
               color: Colors.black,
@@ -29,6 +33,7 @@ mixin SnackbarMessenger {
     ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
     SchedulerBinding.instance.addPostFrameCallback((_) {
       messenger.showSnackBar(SnackBar(
+        behavior: SnackBarBehavior.floating,
         content: Text(message,
             style: const TextStyle(
               color: COLOR_SUCCESS,
@@ -51,10 +56,10 @@ class LoadingComponent extends StatelessWidget {
           padding: const EdgeInsets.all(GAP_LG),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100.0),
-            color: Colors.black.withOpacity(0.5),
+            color: COLOR_DARKEN_25,
           ),
           alignment: Alignment.center,
-          child: const CircularProgressIndicator()),
+          child: const CircularProgressIndicator(color: COLOR_SECONDARY)),
     );
   }
 }

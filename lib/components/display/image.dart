@@ -30,7 +30,13 @@ class MaybeFileImage extends StatelessWidget {
   final File? image;
   final double? width;
   final double? height;
-  const MaybeFileImage({super.key, this.image, this.width, this.height});
+  final BoxFit fit;
+  const MaybeFileImage(
+      {super.key,
+      this.image,
+      this.width,
+      this.height,
+      this.fit = BoxFit.cover});
 
   Widget buildNoImage() {
     return const Center(
@@ -62,7 +68,7 @@ class MaybeFileImage extends StatelessWidget {
                 case ConnectionState.done:
                   if (snapshot.data!) {
                     return Image.file(File(image!.path),
-                        width: width, height: height, fit: BoxFit.cover);
+                        width: width, height: height, fit: fit);
                   } else {
                     return buildNoImage();
                   }

@@ -17,23 +17,19 @@ class FlashcardsController {
     db.put(set);
   }
 
-  static Future<List<FlashcardSet>> getMyFlashcards(Account account) {
-    final query = db
-        .query(FlashcardSet_.owner.equals(account.id))
-        .order(FlashcardSet_.id, flags: Order.descending)
-        .build();
-    final result = query.findAsync();
-    query.close();
-    return result;
+  static void delete(FlashcardSet set) {
+    db.put(set);
   }
 
-  static Future<List<FlashcardSet>> getPublicFlashcards(Account account) {
-    final query = db
+  static QueryBuilder<FlashcardSet> queryMyFlashcards(Account account) {
+    return db
+        .query(FlashcardSet_.owner.equals(account.id))
+        .order(FlashcardSet_.id, flags: Order.descending);
+  }
+
+  static QueryBuilder<FlashcardSet> queryPublicFlashcards(Account account) {
+    return db
         .query(FlashcardSet_.owner.notEquals(account.id))
-        .order(FlashcardSet_.id, flags: Order.descending)
-        .build();
-    final result = query.findAsync();
-    query.close();
-    return result;
+        .order(FlashcardSet_.id, flags: Order.descending);
   }
 }

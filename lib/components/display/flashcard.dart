@@ -13,7 +13,7 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: GAP_SM),
+      padding: const EdgeInsets.symmetric(horizontal: GAP_SM, vertical: GAP_XS),
       child: InkWell(
         onTap: onDelete,
         child: Container(
@@ -83,7 +83,9 @@ class FlashcardSetCard extends StatelessWidget {
           flex: 3,
           child: buildCardMetadata(),
         ),
-        Flexible(flex: 1, child: MaybeFileImage(image: set.image)),
+        Flexible(
+            flex: 1,
+            child: MaybeFileImage(image: set.image, fit: BoxFit.cover)),
       ],
     );
   }

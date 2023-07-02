@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/components/display/flashcard.dart';
-import 'package:memoir/components/display/future.dart';
+import 'package:memoir/components/function/future.dart';
 import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/models/flashcards.dart';
 import 'package:memoir/views/flashcard/create.dart';
@@ -27,7 +27,9 @@ class MyFlashcardsView extends StatelessWidget {
             ),
             const SizedBox(width: GAP),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                FlashcardsController.delete(set);
+              },
               icon: const Icon(Icons.delete_forever),
               label: const Text("Delete"),
               style: BUTTON_DANGER,
@@ -51,10 +53,9 @@ class MyFlashcardsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AsyncRender(
-        future: FlashcardsController.getMyFlashcards(account),
-        builder: (context, data) {
-          List<FlashcardSet> sets = data ?? [];
+    return QueryObserver(
+        query: FlashcardsController.queryMyFlashcards(account),
+        builder: (context, sets) {
           return ListView.builder(
               itemCount: sets.length,
               itemBuilder: (context, idx) => Padding(
