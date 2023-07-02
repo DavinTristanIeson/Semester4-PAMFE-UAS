@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/views/login/main.dart';
+import 'package:memoir/views/profile/main.dart';
 
 void main() {
   runApp(const MemoirApp());
@@ -14,6 +15,7 @@ class MemoirApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: COLOR_PRIMARY,
         fontFamily: "Inter",
