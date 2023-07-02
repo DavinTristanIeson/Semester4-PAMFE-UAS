@@ -24,6 +24,7 @@ class MemoirApp extends StatelessWidget {
     final appState = context.watch<AppStateProvider>();
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: COLOR_PRIMARY,
           fontFamily: "Inter",
