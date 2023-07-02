@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
+import '../controller/account.dart';
 import '../objectbox.g.dart';
 // ignore: unnecessary_import
 import 'package:objectbox/objectbox.dart';
@@ -23,14 +24,16 @@ class Account {
   @Backlink()
   final flashcards = ToMany<FlashcardSet>();
 
-  Account(
-      {required this.email,
-      required this.password,
-      required this.name,
-      this.pfp,
-      this.birthdate,
-      this.bio,
-      this.id = 0});
+  Account({
+    required this.email,
+    required this.password,
+    required this.name,
+    this.pfp,
+    this.birthdate,
+    this.bio,
+    this.id = 0,
+  });
+
   static Digest hash(String source) {
     return sha256.convert(utf8.encode(source));
   }
@@ -54,6 +57,20 @@ class Account {
     }
     password = Account.hash(newPassword).toString();
     return true;
+  }
+
+  bool deleteAccount(String password) {
+    if (!checkPassword(password)) {
+      return false;
+    }
+
+    try {
+      AccountController.delete(this, password);
+      return true;
+    } catch (e) {
+      print('Failed to delete account: $e');
+      return false;
+    }
   }
 
   @override

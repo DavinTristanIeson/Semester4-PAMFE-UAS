@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
           account: account,
         );
       case MainPageView.Profile:
-        return const ProfileView();
+        return const ProfilePage();
     }
   }
 
