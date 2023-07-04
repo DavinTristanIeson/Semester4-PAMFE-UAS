@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/components/display/text.dart';
 import 'package:memoir/components/wrapper/gradient.dart';
+import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/models/app.dart';
 import 'package:memoir/views/browse/main.dart';
 import 'package:memoir/views/mine/main.dart';
@@ -28,12 +29,45 @@ enum MainPageView {
 
 class _MainPageState extends State<MainPage> {
   MainPageView page = MainPageView.MyFlashcards;
-  PreferredSize buildAppBar() {
+  final TextEditingController _search = TextEditingController();
+
+  @override
+  void dispose() {
+    _search.dispose();
+    super.dispose();
+  }
+
+  Widget buildSearchInput(BuildContext context) {
+    final provider = context.read<SearchProvider>();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: GAP_LG),
+      child: Focus(
+        onFocusChange: (isFocused) {
+          if (!isFocused) {
+            provider.search = _search.text;
+          }
+        },
+        child: TextField(
+          controller: _search,
+          decoration: const InputDecoration(
+              filled: true, fillColor: COLOR_SECONDARY, hintText: "Search"),
+        ),
+      ),
+    );
+  }
+
+  PreferredSize buildAppBar(BuildContext context) {
     return AppBarGradient(
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const MemoirBrand(),
+        title: Row(
+          children: [
+            const MemoirBrand(),
+            if (page != MainPageView.Profile)
+              Expanded(child: buildSearchInput(context))
+          ],
+        ),
         actions: [
           if (page == MainPageView.Profile)
             IconButton(
@@ -49,12 +83,15 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget buildBottomNavBar() {
+  Widget buildBottomNavBar(BuildContext context) {
+    final provider = context.read<SearchProvider>();
     return BottomNavigationBarGradient(
       child: BottomNavigationBar(
         onTap: (select) {
           setState(() {
             page = MainPageView.values[select];
+            provider.search = "";
+            _search.text = "";
           });
         },
         currentIndex: page.page,
@@ -87,9 +124,9 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: buildView(),
-      bottomNavigationBar: buildBottomNavBar(),
+      bottomNavigationBar: buildBottomNavBar(context),
       floatingActionButton:
           page == MainPageView.MyFlashcards ? const CreateFlashcardFAB() : null,
     );

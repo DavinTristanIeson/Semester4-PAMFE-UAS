@@ -244,7 +244,7 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
             ErrorComponent(
               title: "No Cards Found",
               reason:
-                  "This flashcard set doesn't seem to have any flashcards yet.${widget.flashcardSet.owner.target!.id == account.id ? " Try creating one!" : ""}",
+                  "This flashcard set doesn't seem to have any flashcards yet.${widget.flashcardSet.owner.target?.id == account.id ? " Try creating one!" : ""}",
             )
           ],
         ),

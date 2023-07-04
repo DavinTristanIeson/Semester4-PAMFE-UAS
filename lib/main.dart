@@ -45,7 +45,10 @@ class MemoirApp extends StatelessWidget {
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
             backgroundColor: COLOR_PRIMARY,
           )),
-      home: appState.account == null ? const LoginPage() : const MainPage(),
+      home: appState.account == null
+          ? const LoginPage()
+          : ChangeNotifierProvider(
+              create: (context) => SearchProvider(), child: const MainPage()),
     );
   }
 }

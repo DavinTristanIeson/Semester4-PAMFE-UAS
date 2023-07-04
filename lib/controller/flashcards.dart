@@ -40,15 +40,27 @@ class FlashcardsController {
     return newSet;
   }
 
-  static QueryBuilder<FlashcardSet> queryMyFlashcards(Account account) {
-    return db.query(FlashcardSet_.owner.equals(account.id));
+  static QueryBuilder<FlashcardSet> queryMyFlashcards(
+      Account account, String search) {
+    Condition<FlashcardSet> condition = FlashcardSet_.owner.equals(account.id);
+    if (search.isNotEmpty) {
+      condition = condition
+          .and(FlashcardSet_.title.contains(search, caseSensitive: false))
+          .or(FlashcardSet_.tags.containsElement(search));
+    }
+    return db.query(condition);
   }
 
-  static QueryBuilder<FlashcardSet> queryPublicFlashcards(Account account) {
-    return db
-        .query(FlashcardSet_.owner
-            .notEquals(account.id)
-            .and(FlashcardSet_.isPublic.equals(true)))
-        .order(FlashcardSet_.id, flags: Order.descending);
+  static QueryBuilder<FlashcardSet> queryPublicFlashcards(
+      Account account, String search) {
+    Condition<FlashcardSet> condition = FlashcardSet_.owner
+        .notEquals(account.id)
+        .and(FlashcardSet_.isPublic.equals(true));
+    if (search.isNotEmpty) {
+      condition = condition
+          .and(FlashcardSet_.title.contains(search, caseSensitive: false))
+          .or(FlashcardSet_.tags.containsElement(search, caseSensitive: false));
+    }
+    return db.query(condition).order(FlashcardSet_.id, flags: Order.descending);
   }
 }

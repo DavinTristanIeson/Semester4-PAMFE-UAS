@@ -22,3 +22,12 @@ class AppStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class SearchProvider extends ChangeNotifier {
+  String _search = '';
+  String get search => _search;
+  set search(String term) {
+    _search = term;
+    notifyListeners();
+  }
+}

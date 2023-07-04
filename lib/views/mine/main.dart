@@ -3,8 +3,10 @@ import 'package:memoir/components/display/flashcard.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:memoir/components/function/future.dart';
 import 'package:memoir/controller/flashcards.dart';
+import 'package:memoir/models/app.dart';
 import 'package:memoir/models/flashcards.dart';
 import 'package:memoir/views/flashcard/create/create.dart';
+import 'package:provider/provider.dart';
 
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
@@ -40,8 +42,9 @@ class MyFlashcardsView extends StatelessWidget with SnackbarMessenger {
 
   @override
   Widget build(BuildContext context) {
+    String search = context.watch<SearchProvider>().search;
     return QueryObserver(
-        query: FlashcardsController.queryMyFlashcards(account),
+        query: FlashcardsController.queryMyFlashcards(account, search),
         builder: (context, sets) {
           return ListView.builder(
               itemCount: sets.length,

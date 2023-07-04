@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:memoir/components/display/flashcard.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:memoir/controller/flashcards.dart';
+import 'package:memoir/models/app.dart';
 import 'package:memoir/models/flashcards.dart';
+import 'package:provider/provider.dart';
 
 import '../../components/function/future.dart';
 import '../../helpers/constants.dart';
@@ -36,8 +38,9 @@ class BrowseView extends StatelessWidget with SnackbarMessenger {
 
   @override
   Widget build(BuildContext context) {
+    String search = context.watch<SearchProvider>().search;
     return QueryObserver(
-        query: FlashcardsController.queryPublicFlashcards(account),
+        query: FlashcardsController.queryPublicFlashcards(account, search),
         builder: (context, sets) {
           return ListView.builder(
               shrinkWrap: true,
