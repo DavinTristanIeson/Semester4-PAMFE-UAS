@@ -22,8 +22,8 @@ class FlashcardsPage extends StatefulWidget {
 
 class _FlashcardsPageState extends State<FlashcardsPage> {
   late List<Flashcard> bucket;
-  int rememberedCount = 0;
   int index = 0;
+  final rng = Random();
 
   @override
   void initState() {
@@ -33,7 +33,6 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
   }
 
   void shuffleBucket() {
-    final rng = Random();
     for (int i = 0; i < bucket.length; i++) {
       int target = i + rng.nextInt(bucket.length - i);
       final temp = bucket[target];
@@ -42,13 +41,19 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
     }
   }
 
-  ButtonStyle buildActionStyle() {
+  ButtonStyle buildActionStyle(bool isSuccess) {
     return ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
       shape: const StadiumBorder(),
       padding: const EdgeInsets.all(GAP_LG),
       side: const BorderSide(color: Colors.black, width: GAP_XS),
-    );
+    ).copyWith(backgroundColor: MaterialStateProperty.resolveWith((states) {
+      if (states.contains(MaterialState.pressed) ||
+          states.contains(MaterialState.hovered) ||
+          states.contains(MaterialState.focused)) {
+        return isSuccess ? COLOR_SUCCESS_CONTAINER : COLOR_DANGER_CONTAINER;
+      }
+      return Colors.white;
+    }));
   }
 
   Widget buildButtons() {
@@ -75,7 +80,7 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
           "You forgot the answer to this question, and would like to retry this again later",
       child: ElevatedButton(
           onPressed: () => setState(() => index++),
-          style: buildActionStyle(),
+          style: buildActionStyle(false),
           child: const Row(
             children: [
               Icon(Icons.cancel, color: COLOR_DANGER),
@@ -102,7 +107,7 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
           "You already know the answer to this question, and would like it removed from the stack of flashcards.",
       child: ElevatedButton(
           onPressed: () => setState(() => bucket.removeAt(index)),
-          style: buildActionStyle(),
+          style: buildActionStyle(true),
           child: const Row(
             children: [
               Icon(Icons.check, color: COLOR_SUCCESS),
@@ -130,6 +135,7 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
         borderRadius: BorderRadius.all(Radius.circular(BR_LARGE)),
       ),
       padding: const EdgeInsets.all(GAP_LG),
+      width: double.maxFinite,
       child: Column(
         children: [
           Text(
@@ -167,6 +173,21 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
     );
   }
 
+  Widget buildThrowAwayAnimation(Widget widget, Animation<double> animation) {
+    final tween = Tween(begin: 0.0, end: 1.0).animate(animation);
+    return AnimatedBuilder(
+      animation: tween,
+      child: widget,
+      builder: (context, child) {
+        final isIncoming = widget.key == ValueKey(bucket[index].id);
+        return Transform.translate(
+            offset:
+                Offset((1 - tween.value) * (isIncoming ? 1000 : -1000), 0.0),
+            child: child);
+      },
+    );
+  }
+
   Widget buildCard(BuildContext context) {
     if (index >= bucket.length) {
       shuffleBucket();
@@ -175,12 +196,18 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
     if (bucket.isEmpty) {
       return buildRestartButton();
     }
-    Flashcard flashcard = bucket[index];
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: GAP_LG),
-      child: FlippableFlashcard(
-        flashcard: flashcard,
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 800),
+      transitionBuilder: buildThrowAwayAnimation,
+      switchInCurve: Curves.ease,
+      switchOutCurve: Curves.ease.flipped,
+      child: Padding(
+        key: ValueKey(bucket[index].id),
+        padding: const EdgeInsets.symmetric(horizontal: GAP_LG),
+        child: FlippableFlashcard(
+          flashcard: bucket[index],
+        ),
       ),
     );
   }
@@ -227,7 +254,7 @@ class _FlashcardsPageState extends State<FlashcardsPage> {
     return Scaffold(
         body: PlayfulCircleBackground(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height - GAP_LG,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

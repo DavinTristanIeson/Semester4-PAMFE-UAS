@@ -122,7 +122,7 @@ class FlashcardSetCard extends StatelessWidget {
               child: Text(set.description!, style: TEXT_DEFAULT)),
         Wrap(
           children: set.tags.map<Tag>((tag) => Tag(tag: tag)).toList(),
-        )
+        ),
       ],
     );
   }
