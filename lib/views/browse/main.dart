@@ -47,7 +47,6 @@ class BrowseView extends StatelessWidget with SnackbarMessenger {
                       vertical: GAP_SM, horizontal: GAP_LG),
                   child: FlashcardSetCard(
                     set: sets[idx],
-                    onTap: () {},
                     actions: buildActions(context, sets[idx]),
                   )));
         });

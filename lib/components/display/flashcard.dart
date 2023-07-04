@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memoir/components/display/image.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
+import 'package:memoir/views/flashcard/session.dart';
 
 import '../../models/flashcards.dart';
 
@@ -41,14 +42,16 @@ class Tag extends StatelessWidget {
 class FlashcardSetCard extends StatelessWidget {
   final List<Widget> actions;
   final FlashcardSet set;
-  final void Function()? onTap;
-  const FlashcardSetCard(
-      {super.key, required this.set, required this.actions, this.onTap});
+  const FlashcardSetCard({super.key, required this.set, required this.actions});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return FlashcardsPage(flashcardSet: set);
+        }));
+      },
       child: Container(
         decoration: BoxDecoration(
             border: BORDER_THICK,
