@@ -1,3 +1,4 @@
+import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/objectbox.g.dart';
 // ignore: unnecessary_import
 import 'package:objectbox/objectbox.dart';
@@ -42,10 +43,14 @@ class AccountController {
       throw UserException(
           "Password doesn't match the account's actual password.");
     }
-    if (!db.remove(account.id)) {
-      throw UserException(
-          "The account you're trying to delete doesn't seem to exist?");
-    }
+    store.runInTransaction(TxMode.write, () {
+      FlashcardsController.db
+          .removeMany(account.flashcards.map<int>((x) => x.id).toList());
+      if (!db.remove(account.id)) {
+        throw UserException(
+            "The account you're trying to delete doesn't seem to exist?");
+      }
+    });
   }
 
   static update(Account account) {

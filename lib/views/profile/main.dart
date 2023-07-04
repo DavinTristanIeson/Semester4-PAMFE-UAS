@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:memoir/components/display/info.dart';
+import 'package:memoir/models/common.dart';
 import 'package:memoir/views/profile/editprofile.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +14,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
   final TextEditingController _passwordController = TextEditingController();
   String _errorText = '';
 
@@ -84,21 +86,26 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   onPressed: () {
                     String password = _passwordController.text.trim();
-                    AppStateProvider appStateProvider =
-                        Provider.of<AppStateProvider>(context, listen: false);
-                    bool success = appStateProvider.deleteAccount(password);
                     if (password.isEmpty) {
                       setState(() {
-                        _errorText = '';
+                        _errorText = 'Password is required';
                       });
-                    } else if (!success) {
+                      return;
+                    }
+
+                    AppStateProvider appStateProvider =
+                        Provider.of<AppStateProvider>(context, listen: false);
+                    try {
+                      appStateProvider.deleteAccount(password);
+                      Navigator.of(context).pop();
+                      appStateProvider.logout();
+                      sendSuccess(context,
+                          "Account ${appStateProvider.account!.name} has been successfully deleted");
+                    } on UserException catch (e) {
                       setState(() {
-                        _errorText = 'Incorrect password';
+                        _errorText = e.message;
                         _passwordController.clear();
                       });
-                    } else {
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed('/login');
                     }
                   },
                 ),
@@ -152,12 +159,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            account?.name ?? 'Your Name',
+                            account!.name,
                             style: const TextStyle(fontSize: 30),
                           ),
                           const Divider(color: COLOR_LINK),
                           Text(
-                            account?.email ?? 'youremail@example.com',
+                            account.email,
                             style: const TextStyle(fontSize: 16),
                           ),
                         ],
@@ -187,7 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   padding: const EdgeInsets.all(16.0),
                   child: SingleChildScrollView(
                     child: Text(
-                      account?.bio ?? '',
+                      account.bio ?? '',
                       style: const TextStyle(fontSize: 16.0),
                     ),
                   ),

@@ -118,9 +118,8 @@ void showLogoutConfirmationDialog(BuildContext context) {
             onPressed: () {
               final appStateProvider =
                   Provider.of<AppStateProvider>(context, listen: false);
-              appStateProvider.logout();
               Navigator.of(context).pop();
-              Navigator.pushReplacementNamed(context, '/login');
+              appStateProvider.logout();
             },
           ),
         ],

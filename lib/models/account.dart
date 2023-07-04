@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
-import '../controller/account.dart';
 import '../objectbox.g.dart';
 // ignore: unnecessary_import
 import 'package:objectbox/objectbox.dart';
@@ -54,20 +53,6 @@ class Account {
     }
     password = Account.hash(newPassword).toString();
     return true;
-  }
-
-  bool deleteAccount(String password) {
-    if (!checkPassword(password)) {
-      return false;
-    }
-
-    try {
-      AccountController.delete(this, password);
-      return true;
-    } catch (e) {
-      print('Failed to delete account: $e');
-      return false;
-    }
   }
 
   @override
