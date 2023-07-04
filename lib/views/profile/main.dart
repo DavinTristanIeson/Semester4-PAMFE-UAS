@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memoir/views/profile/editprofile.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/constants.dart';
@@ -77,7 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   },
                 ),
                 TextButton(
-                  child: const Text('Delete'),
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: Colors.red),
+                  ),
                   onPressed: () {
                     String password = _passwordController.text.trim();
                     AppStateProvider appStateProvider =
@@ -103,6 +107,19 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         );
       },
+    );
+  }
+
+  void onCancel() {
+    Navigator.of(context).pop();
+  }
+
+  void _editAccount(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+          builder: (context) => EditProfileForm(
+                onCancel: onCancel,
+              )),
     );
   }
 
@@ -195,6 +212,29 @@ class _ProfilePageState extends State<ProfilePage> {
                 label: const Text("Delete Account"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
+                  padding: const EdgeInsets.all(16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: 12,
+            right: 12,
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  _editAccount(context);
+                },
+                icon: const Icon(Icons.edit),
+                label: const Text("Edit Account"),
+                style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(16.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

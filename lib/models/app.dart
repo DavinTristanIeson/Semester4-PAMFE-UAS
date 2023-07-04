@@ -10,6 +10,11 @@ class AppStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void logout() {
+    _account = null;
+    notifyListeners();
+  }
+
   bool deleteAccount(String password) {
     if (_account != null) {
       bool success = _account!.deleteAccount(password);
@@ -17,8 +22,8 @@ class AppStateProvider extends ChangeNotifier {
         _account = null;
         notifyListeners();
       }
-      return success; // Return the success value
+      return success;
     }
-    return false; // Account is null, deletion failed
+    return false;
   }
 }
