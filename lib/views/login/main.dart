@@ -4,7 +4,7 @@ import 'package:memoir/views/login/register.dart';
 
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
-import 'components.dart';
+import '../../components/display/background.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,8 +24,9 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: LoginPageGradientBackground(
-            paddingTop: isLogin ? GAP_XL * 2 : GAP_XL,
+        body: PlayfulCircleBackground(
+            padding: const EdgeInsets.all(GAP)
+                .copyWith(top: isLogin ? GAP_XL * 2 : GAP_XL),
             child: Column(
               children: [
                 const Text("MEMOIR",

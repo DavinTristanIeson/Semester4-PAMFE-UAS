@@ -100,9 +100,10 @@ class ErrorMessage extends StatelessWidget {
 }
 
 class ErrorComponent extends StatelessWidget {
+  final String? title;
   final String? reason;
   final Widget? child;
-  const ErrorComponent({super.key, this.reason, this.child});
+  const ErrorComponent({super.key, this.reason, this.child, this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class ErrorComponent extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(GAP_LG),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100.0),
+          borderRadius: BorderRadius.circular(BR_LARGE),
           color: Colors.black.withOpacity(0.5),
         ),
         alignment: Alignment.center,
@@ -120,20 +121,16 @@ class ErrorComponent extends StatelessWidget {
             color: COLOR_DANGER,
             size: 48,
           ),
-          const Text(UNEXPECTED_ERROR,
-              style: TextStyle(
+          Text(title ?? UNEXPECTED_ERROR,
+              style: const TextStyle(
                   color: COLOR_DANGER,
                   fontWeight: FontWeight.bold,
-                  fontFamily: "Josefin Sans",
                   fontSize: 18)),
           if (reason != null)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: GAP_LG),
               child: Text(reason!,
-                  style: const TextStyle(
-                      color: COLOR_DANGER,
-                      fontFamily: "Josefin Sans",
-                      fontSize: 16)),
+                  style: const TextStyle(color: COLOR_DANGER, fontSize: 16)),
             ),
           if (child != null) child!
         ]),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memoir/components/display/image.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
-import 'package:memoir/views/flashcard/session.dart';
+import 'package:memoir/views/flashcard/session/session.dart';
 
 import '../../models/flashcards.dart';
 

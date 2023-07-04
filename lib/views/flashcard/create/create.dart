@@ -4,8 +4,8 @@ import 'package:memoir/components/display/text.dart';
 import 'package:memoir/components/wrapper/gradient.dart';
 import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/models/flashcards.dart';
-import 'package:memoir/views/flashcard/create_cards.dart';
-import 'package:memoir/views/flashcard/create_detail.dart';
+import 'package:memoir/views/flashcard/create/create_cards.dart';
+import 'package:memoir/views/flashcard/create/create_detail.dart';
 
 class CreateFlashcardsPage extends StatefulWidget {
   final FlashcardSet? set;

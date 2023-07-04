@@ -7,7 +7,7 @@ import 'package:memoir/controller/account.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/helpers/validators.dart';
-import 'package:memoir/views/login/components.dart';
+import 'package:memoir/components/display/background.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/common.dart';

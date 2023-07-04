@@ -64,19 +64,20 @@ class _FadedCircleState extends State<FadedCircle>
   }
 }
 
-class LoginPageGradientBackground extends StatelessWidget {
+class PlayfulCircleBackground extends StatelessWidget {
   final Widget child;
-  final double? paddingTop;
-  const LoginPageGradientBackground(
-      {super.key, required this.child, this.paddingTop});
+  late final EdgeInsets padding;
+  PlayfulCircleBackground(
+      {super.key, required this.child, EdgeInsets? padding}) {
+    this.padding = padding ?? const EdgeInsets.all(GAP);
+  }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Container(
-      width: double.maxFinite,
-      height: double.maxFinite,
+      constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(gradient: VGRADIENT_PRIMARY_FADE),
       child: Stack(
         children: [
@@ -98,10 +99,7 @@ class LoginPageGradientBackground extends StatelessWidget {
               xMotion: -80.0,
               yOrigin: height * 0.3,
               duration: const Duration(seconds: 8)),
-          Padding(
-              padding:
-                  const EdgeInsets.all(GAP).copyWith(top: paddingTop ?? GAP),
-              child: SingleChildScrollView(child: child)),
+          Padding(padding: padding, child: SingleChildScrollView(child: child)),
         ],
       ),
     );

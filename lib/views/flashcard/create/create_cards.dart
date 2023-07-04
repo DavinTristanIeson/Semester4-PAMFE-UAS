@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 
-import '../../components/wrapper/input.dart';
-import '../../models/flashcards.dart';
+import '../../../components/wrapper/input.dart';
+import '../../../models/flashcards.dart';
 
 class CreateFlashcardSetCardsView extends StatelessWidget {
   final FlashcardSet flashcardSet;

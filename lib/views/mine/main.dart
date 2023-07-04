@@ -4,7 +4,7 @@ import 'package:memoir/components/display/info.dart';
 import 'package:memoir/components/function/future.dart';
 import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/models/flashcards.dart';
-import 'package:memoir/views/flashcard/create.dart';
+import 'package:memoir/views/flashcard/create/create.dart';
 
 import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';

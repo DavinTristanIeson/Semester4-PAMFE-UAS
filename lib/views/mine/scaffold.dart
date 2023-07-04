@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memoir/views/flashcard/create.dart';
+import 'package:memoir/views/flashcard/create/create.dart';
 
 class CreateFlashcardFAB extends StatelessWidget {
   const CreateFlashcardFAB({super.key});

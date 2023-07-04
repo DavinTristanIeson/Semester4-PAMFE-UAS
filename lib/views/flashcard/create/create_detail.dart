@@ -3,14 +3,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'input.dart';
-import '../../components/wrapper/input.dart';
-import '../../controller/common.dart';
-import '../../helpers/constants.dart';
-import '../../helpers/validators.dart';
-import '../../models/account.dart';
-import '../../models/app.dart';
-import '../../models/flashcards.dart';
+import '../input.dart';
+import '../../../components/wrapper/input.dart';
+import '../../../controller/common.dart';
+import '../../../helpers/constants.dart';
+import '../../../helpers/validators.dart';
+import '../../../models/account.dart';
+import '../../../models/app.dart';
+import '../../../models/flashcards.dart';
 
 final GlobalKey<FormBuilderState> _detailKey = GlobalKey();
 
