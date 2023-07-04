@@ -27,7 +27,7 @@ class Tag extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("#$tag"),
+              Text("#$tag", style: TEXT_TAG),
               const SizedBox(width: GAP_SM),
               if (onDelete != null) const Icon(Icons.close, size: 16),
             ],
@@ -85,7 +85,11 @@ class FlashcardSetCard extends StatelessWidget {
         ),
         Flexible(
             flex: 1,
-            child: MaybeFileImage(image: set.image, fit: BoxFit.cover)),
+            child: ConstrainedBox(
+              constraints:
+                  const BoxConstraints(minHeight: 100.0, maxHeight: 100.0),
+              child: MaybeFileImage(image: set.image, fit: BoxFit.cover),
+            )),
       ],
     );
   }

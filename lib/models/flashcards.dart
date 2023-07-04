@@ -24,8 +24,8 @@ class FlashcardSet {
 
   @Backlink()
   final cards = ToMany<Flashcard>();
-
   final owner = ToOne<Account>();
+  final forkedFrom = ToOne<FlashcardSet>();
 
   FlashcardSet({
     required this.title,
@@ -34,7 +34,6 @@ class FlashcardSet {
     this.thumbnail,
     this.isPublic = false,
     this.id = 0,
-    List<Flashcard>? cards,
   });
 
   File? get image {

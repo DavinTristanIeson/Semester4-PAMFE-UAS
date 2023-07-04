@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/components/display/flashcard.dart';
+import 'package:memoir/components/display/info.dart';
 import 'package:memoir/controller/flashcards.dart';
 import 'package:memoir/models/flashcards.dart';
 
@@ -8,15 +9,22 @@ import '../../helpers/constants.dart';
 import '../../helpers/styles.dart';
 import '../../models/account.dart';
 
-class BrowseView extends StatelessWidget {
+class BrowseView extends StatelessWidget with SnackbarMessenger {
   final Account account;
   const BrowseView({super.key, required this.account});
 
-  List<Widget> buildActions(FlashcardSet set) {
+  List<Widget> buildActions(BuildContext context, FlashcardSet set) {
     return [
       ElevatedButton.icon(
-          onPressed: () {},
-          icon: const Icon(Icons.bookmark),
+          onPressed: () {
+            try {
+              FlashcardsController.fork(set, account);
+              sendSuccess(context, "Saved ${set.title} to your library!");
+            } catch (e) {
+              sendError(context, e.toString());
+            }
+          },
+          icon: const Icon(Icons.save),
           label: const Text("Save"),
           style: ElevatedButton.styleFrom(
             backgroundColor: COLOR_SUCCESS,
@@ -40,7 +48,7 @@ class BrowseView extends StatelessWidget {
                   child: FlashcardSetCard(
                     set: sets[idx],
                     onTap: () {},
-                    actions: buildActions(sets[idx]),
+                    actions: buildActions(context, sets[idx]),
                   )));
         });
   }

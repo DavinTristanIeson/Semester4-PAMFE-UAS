@@ -37,7 +37,7 @@
     },
     {
       "id": "3:7945606195991614981",
-      "lastPropertyId": "7:4350670804287184399",
+      "lastPropertyId": "8:3708142273439700308",
       "name": "FlashcardSet",
       "properties": [
         {
@@ -78,6 +78,14 @@
           "flags": 520,
           "indexId": "2:5479124557187373560",
           "relationTarget": "Account"
+        },
+        {
+          "id": "8:3708142273439700308",
+          "name": "forkedFromId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:4115705442783897031",
+          "relationTarget": "FlashcardSet"
         }
       ],
       "relations": []
@@ -130,8 +138,8 @@
     }
   ],
   "lastEntityId": "4:8615782653611655959",
-  "lastIndexId": "3:5797852947804213502",
-  "lastRelationId": "0:0",
+  "lastIndexId": "4:4115705442783897031",
+  "lastRelationId": "3:2735017704278751365",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
@@ -149,6 +157,10 @@
     6937287615097722939,
     5407336271656545299
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    4859618590425331983,
+    6166409543967518760,
+    2735017704278751365
+  ],
   "version": 1
 }

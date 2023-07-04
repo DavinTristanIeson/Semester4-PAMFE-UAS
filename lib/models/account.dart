@@ -20,9 +20,8 @@ class Account {
   DateTime? birthdate;
   String? pfp;
 
-  @Backlink()
+  @Backlink("owner")
   final flashcards = ToMany<FlashcardSet>();
-
   Account(
       {required this.email,
       required this.password,

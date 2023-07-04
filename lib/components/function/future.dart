@@ -72,6 +72,7 @@ class _QueryObserverState<T> extends State<QueryObserver<T>> {
   @override
   void didUpdateWidget(covariant QueryObserver<T> oldWidget) {
     if (oldWidget.query != widget.query) {
+      _subscription.cancel();
       listenToQuery();
     }
     super.didUpdateWidget(oldWidget);

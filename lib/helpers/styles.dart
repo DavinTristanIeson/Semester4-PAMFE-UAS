@@ -107,3 +107,8 @@ const TEXT_SMALL_DETAIL = TextStyle(
   color: COLOR_ON_PRIMARY,
   fontWeight: FontWeight.w200,
 );
+const TEXT_TAG = TextStyle(
+  fontSize: FS_SMALL,
+  color: Colors.black,
+  fontWeight: FontWeight.w200,
+);
