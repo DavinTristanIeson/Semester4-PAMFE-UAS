@@ -34,6 +34,17 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const MemoirBrand(),
+        actions: [
+          if (page == MainPageView.Profile)
+            IconButton(
+              icon: const Icon(Icons.logout),
+              padding: const EdgeInsets.only(right: 20),
+              color: Colors.white,
+              onPressed: () {
+                showLogoutConfirmationDialog(context);
+              },
+            ),
+        ],
       ),
     );
   }
@@ -69,7 +80,7 @@ class _MainPageState extends State<MainPage> {
           account: account,
         );
       case MainPageView.Profile:
-        return const ProfileView();
+        return const ProfilePage();
     }
   }
 
@@ -83,4 +94,37 @@ class _MainPageState extends State<MainPage> {
           page == MainPageView.MyFlashcards ? const CreateFlashcardFAB() : null,
     );
   }
+}
+
+void showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Logout Confirmation'),
+        content: const Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.red),
+            ),
+            onPressed: () {
+              final appStateProvider =
+                  Provider.of<AppStateProvider>(context, listen: false);
+              appStateProvider.logout();
+              Navigator.of(context).pop();
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
