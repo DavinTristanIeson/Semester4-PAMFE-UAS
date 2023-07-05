@@ -1,4 +1,4 @@
-flutter build apk
+flutter build apk -v
 if [ $? -ne 0 ]; then
     printf "\e[31;1m%s\e[0m\n" "Build failed with exit code $?"
     exit 1

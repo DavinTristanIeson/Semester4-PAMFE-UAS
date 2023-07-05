@@ -27,7 +27,9 @@ class _CreateFlashcardsPageState extends State<CreateFlashcardsPage>
 
   void save(FlashcardSet flashcardSet) {
     FlashcardsController.update(flashcardSet);
-    this.flashcardSet = flashcardSet;
+    setState(() {
+      this.flashcardSet = flashcardSet;
+    });
     // ignore: use_build_context_synchronously
     sendSuccess(context, "Successfully saved ${flashcardSet.title}");
   }

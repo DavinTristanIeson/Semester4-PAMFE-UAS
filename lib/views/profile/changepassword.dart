@@ -4,6 +4,7 @@ import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/helpers/validators.dart';
 import 'package:provider/provider.dart';
 import 'package:memoir/helpers/constants.dart';
+import '../../components/display/info.dart';
 import '../../components/wrapper/touchable.dart';
 import '../../models/app.dart';
 
@@ -14,7 +15,8 @@ class ChangePasswordPage extends StatefulWidget {
   State<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage>
+    with SnackbarMessenger {
   final GlobalKey<FormBuilderState> _changePasswordFormKey =
       GlobalKey<FormBuilderState>();
 
@@ -34,33 +36,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final currentPassword = state.fields['currentPassword']!.value;
     final newPassword = state.fields['newPassword']!.value;
 
-    // print('Current Password: $currentPassword');
-    // print('Account Password: ${appState.account!.password}');
-
     if (!appState.account!.changePassword(currentPassword, newPassword)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Incorrect current password',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
+      sendError(context, 'Incorrect current password');
       return;
     }
 
     state.reset();
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Password changed successfully',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.green,
-      ),
-    );
+    sendSuccess(context, 'Password changed successfully');
+    Navigator.of(context).pop();
   }
 
   void _togglePasswordVisibility(String fieldName) {
@@ -90,18 +73,29 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   label: 'Current Password',
                   placeholder: 'Enter your current password',
                   visible: _currentPasswordVisible,
+                  validator: validatePassword,
                 ),
                 _buildPasswordField(
-                  name: 'newPassword',
-                  label: 'New Password',
-                  placeholder: 'Enter your new password',
-                  visible: _newPasswordVisible,
-                ),
+                    name: 'newPassword',
+                    label: 'New Password',
+                    placeholder: 'Enter your new password',
+                    visible: _newPasswordVisible,
+                    validator: validatePassword),
                 _buildPasswordField(
                   name: 'confirmNewPassword',
                   label: 'Confirm New Password',
                   placeholder: 'Confirm your new password',
                   visible: _confirmNewPasswordVisible,
+                  validator: (String? value) {
+                    if (value == null) {
+                      return "Password confirmation is required";
+                    } else if (_changePasswordFormKey
+                            .currentState!.fields["newPassword"]!.value !=
+                        value) {
+                      return "Password confirmation does not match password";
+                    }
+                    return null;
+                  },
                 ),
                 Container(
                   width: double.maxFinite,
@@ -139,10 +133,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     required String label,
     required String placeholder,
     required bool visible,
+    required String? Function(String?) validator,
   }) {
     return FormBuilderTextField(
       name: name,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: !visible,
+      autofocus: false,
       decoration: InputDecoration(
         labelText: label,
         hintText: placeholder,
@@ -153,7 +150,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           },
         ),
       ),
-      validator: validatePassword,
+      validator: validator,
     );
   }
 }

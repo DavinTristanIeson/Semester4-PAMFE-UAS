@@ -25,7 +25,7 @@ class FlashcardSet {
   @Backlink()
   final cards = ToMany<Flashcard>();
   final owner = ToOne<Account>();
-  final forkedFrom = ToOne<FlashcardSet>();
+  final forkedFrom = ToOne<Account>();
 
   FlashcardSet({
     required this.title,

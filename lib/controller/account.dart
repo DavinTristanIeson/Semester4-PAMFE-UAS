@@ -44,8 +44,9 @@ class AccountController {
           "Password doesn't match the account's actual password.");
     }
     store.runInTransaction(TxMode.write, () {
-      FlashcardsController.db
-          .removeMany(account.flashcards.map<int>((x) => x.id).toList());
+      for (final set in account.flashcards) {
+        FlashcardsController.delete(set);
+      }
       if (!db.remove(account.id)) {
         throw UserException(
             "The account you're trying to delete doesn't seem to exist?");

@@ -1,9 +1,9 @@
 RegExp EMAIL_REGEX = RegExp(
-    r"/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/");
+    r"^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$");
 RegExp NAME_REGEX = RegExp("^[a-zA-Z]+( [a-zA-Z]+)*\$");
 String? validateEmail(String? email) {
   if (email == null || email.isEmpty) return "Email is required!";
-  if (EMAIL_REGEX.hasMatch(email)) {
+  if (!EMAIL_REGEX.hasMatch(email)) {
     return "Provided email is not a valid email!";
   }
   return null;

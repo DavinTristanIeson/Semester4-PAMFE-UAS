@@ -6,9 +6,8 @@ import 'package:memoir/models/app.dart';
 import 'package:memoir/views/browse/main.dart';
 import 'package:memoir/views/mine/main.dart';
 import 'package:memoir/views/mine/scaffold.dart';
-import 'package:memoir/views/profile/changepassword.dart';
-import 'package:memoir/views/profile/editprofile.dart';
 import 'package:memoir/views/profile/main.dart';
+import 'package:memoir/views/profile/scaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../models/account.dart';
@@ -66,86 +65,19 @@ class _MainPageState extends State<MainPage> {
         title: Row(
           children: [
             const MemoirBrand(),
-            if (page != MainPageView.Profile) buildSearchInput(context),
+            if (page != MainPageView.Profile)
+              Expanded(child: buildSearchInput(context)),
           ],
         ),
         actions: [
-          if (page == MainPageView.Profile)
-            IconButton(
-              icon: const Icon(Icons.logout, color: Colors.white),
-              onPressed: () {
-                showLogoutConfirmationDialog(context);
-              },
-            ),
-          if (page == MainPageView.Profile)
-            PopupMenuButton<String>(
-              color: Colors.white,
-              onSelected: (value) {
-                if (value == 'edit_profile') {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => EditProfileForm(
-                        onCancel: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  );
-                } else if (value == 'change_password') {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ChangePasswordPage()));
-                } else if (value == 'delete_account') {
-                  // ProfilePage profilePage = const ProfilePage();
-                  // profilePage.confirmDelete(context);
-                }
-              },
-              constraints: const BoxConstraints.tightFor(width: 220),
-              padding: const EdgeInsets.all(8),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'edit_profile',
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.edit,
-                      size: 14,
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      'Edit Profile',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'change_password',
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.lock,
-                      size: 14,
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      'Change Password',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'delete_account',
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.delete,
-                      size: 14,
-                    ),
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      'Delete Account',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          IconButton(
+            padding: const EdgeInsets.only(right: 20.0),
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () {
+              showLogoutConfirmationDialog(context);
+            },
+          ),
+          if (page == MainPageView.Profile) const ProfileViewActions(),
         ],
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +11,7 @@ import 'package:memoir/helpers/validators.dart';
 import 'package:memoir/components/display/background.dart';
 import 'package:provider/provider.dart';
 
+import '../../controller/common.dart';
 import '../../models/account.dart';
 import '../../models/app.dart';
 import '../../models/common.dart';
@@ -51,18 +50,20 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
     account.bio = state.fields["bio"]!.value;
     XFile? profilePicture = state.fields["pfp"]!.value;
     if (profilePicture != null) {
-      File profilePictureFile = File(profilePicture.path);
-      account.pfp = profilePictureFile.path;
+      account.pfp = (await saveImage(profilePicture, former: account.pfp)).path;
     }
 
     try {
       AccountController.update(account);
     } on UserException catch (e) {
+      // ignore: use_build_context_synchronously
       sendError(context, e.message);
       return;
     }
 
+    // ignore: use_build_context_synchronously
     context.read<AppStateProvider>().account = account;
+    // ignore: use_build_context_synchronously
     showTransparentDialog(context);
   }
 
@@ -73,12 +74,13 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
       body: SingleChildScrollView(
         child: FormBuilder(
           key: _editProfileFormKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           initialValue: {
             "email": account.email,
             "name": account.name,
             "birthdate": account.birthdate,
             "bio": account.bio,
-            "pfp": null,
+            "pfp": account.pfp != null ? XFile(account.pfp!) : null,
           },
           child: LoginPageFormContainer(
             child: Column(
@@ -119,8 +121,8 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
                   height: 64.0,
                   padding: const EdgeInsets.only(top: GAP_LG, bottom: GAP),
                   child: ElevatedButton(
-                    onPressed: () {
-                      submit(context);
+                    onPressed: () async {
+                      await submit(context);
                       Future.delayed(const Duration(milliseconds: 1000), () {
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();

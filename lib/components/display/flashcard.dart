@@ -4,6 +4,7 @@ import 'package:memoir/helpers/constants.dart';
 import 'package:memoir/helpers/styles.dart';
 import 'package:memoir/views/flashcard/session/session.dart';
 
+import '../../models/account.dart';
 import '../../models/flashcards.dart';
 
 class Tag extends StatelessWidget {
@@ -97,25 +98,30 @@ class FlashcardSetCard extends StatelessWidget {
     );
   }
 
+  Widget buildUserAttribution(Account? target, {String prefix = "by: "}) {
+    return Text.rich(TextSpan(children: [
+      TextSpan(
+          text: prefix,
+          style: const TextStyle(
+            fontSize: FS_DEFAULT,
+            fontWeight: FontWeight.bold,
+          )),
+      TextSpan(
+          text: target == null ? "Deleted User" : target.name,
+          style: target == null ? TEXT_DISABLED : TEXT_DEFAULT),
+    ]));
+  }
+
   Column buildCardMetadata() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: GAP),
         Text(set.title, style: TEXT_IMPORTANT),
-        Text.rich(TextSpan(children: [
-          const TextSpan(
-              text: "by: ",
-              style: TextStyle(
-                fontSize: FS_DEFAULT,
-                fontWeight: FontWeight.bold,
-              )),
-          TextSpan(
-              text: set.owner.target == null
-                  ? "Deleted User"
-                  : set.owner.target!.name,
-              style: set.owner.target == null ? TEXT_DISABLED : TEXT_DEFAULT),
-        ])),
+        buildUserAttribution(set.owner.target),
+        if (set.forkedFrom.target != null)
+          buildUserAttribution(set.forkedFrom.target,
+              prefix: "originally by: "),
         if (set.description != null)
           Padding(
               padding: const EdgeInsets.only(top: GAP, bottom: GAP_LG),

@@ -38,7 +38,7 @@ class CreateFlashcardSetDetailView extends StatelessWidget {
                   former: flashcardSet?.thumbnail))
               .path
           : null,
-      isPublic: state.fields["isPublic"]!.value,
+      isPublic: state.fields["isPublic"]!.value ?? false,
       id: flashcardSet?.id ?? 0,
     );
     newFlashcardSet.owner.target = account;

@@ -85,7 +85,7 @@
           "type": 11,
           "flags": 520,
           "indexId": "4:4115705442783897031",
-          "relationTarget": "FlashcardSet"
+          "relationTarget": "Account"
         }
       ],
       "relations": []
