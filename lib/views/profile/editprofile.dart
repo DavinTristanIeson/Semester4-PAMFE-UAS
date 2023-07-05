@@ -53,10 +53,7 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
     if (profilePicture != null) {
       File profilePictureFile = File(profilePicture.path);
       account.pfp = profilePictureFile.path;
-      // Handle the profile picture file as needed (e.g., upload to server, save locally)
-      // You can access the file using `profilePictureFile.path`
     }
-    // You can update other fields as well as per your requirements
 
     try {
       AccountController.update(account);
@@ -81,7 +78,7 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
             "name": account.name,
             "birthdate": account.birthdate,
             "bio": account.bio,
-            "pfp": null, // Placeholder for the profile picture file
+            "pfp": null,
           },
           child: LoginPageFormContainer(
             child: Column(

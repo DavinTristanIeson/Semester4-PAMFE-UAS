@@ -47,11 +47,13 @@ class Account {
     return email == this.email && checkPassword(password);
   }
 
-  bool changePassword(String password, String newPassword) {
-    if (!checkPassword(password)) {
+  bool changePassword(String currentPassword, String newPassword) {
+    if (!checkPassword(currentPassword)) {
       return false;
     }
-    password = Account.hash(newPassword).toString();
+
+    final hashedPassword = Account.hash(newPassword).toString();
+    password = hashedPassword;
     return true;
   }
 

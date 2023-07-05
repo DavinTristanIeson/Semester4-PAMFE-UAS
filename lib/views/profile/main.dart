@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:memoir/models/common.dart';
-import 'package:memoir/views/profile/editprofile.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/constants.dart';
@@ -24,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
     super.dispose();
   }
 
-  void _confirmDelete(BuildContext context) {
+  void confirmDelete(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -42,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
               child: const Text('Next'),
               onPressed: () {
                 Navigator.of(context).pop();
-                _checkPassword(context);
+                _checkPasswordDeleteAcc(context);
               },
             ),
           ],
@@ -51,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
     );
   }
 
-  void _checkPassword(BuildContext context) {
+  void _checkPasswordDeleteAcc(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -114,19 +113,6 @@ class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
           },
         );
       },
-    );
-  }
-
-  void onCancel() {
-    Navigator.of(context).pop();
-  }
-
-  void _editAccount(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-          builder: (context) => EditProfileForm(
-                onCancel: onCancel,
-              )),
     );
   }
 
@@ -203,53 +189,30 @@ class _ProfilePageState extends State<ProfilePage> with SnackbarMessenger {
               ],
             ),
           ),
-          Positioned(
-            bottom: 12.0,
-            left: 12.0,
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _confirmDelete(context);
-                },
-                icon: const Icon(Icons.delete),
-                label: const Text("Delete Account"),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  padding: const EdgeInsets.all(16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 12,
-            right: 12,
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  _editAccount(context);
-                },
-                icon: const Icon(Icons.edit),
-                label: const Text("Edit Account"),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(16.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ),
-            ),
-          )
+          // Positioned(
+          //   bottom: 12.0,
+          //   left: 12.0,
+          //   child: Container(
+          //     padding: const EdgeInsets.all(8.0),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(20.0),
+          //     ),
+          //     child: ElevatedButton.icon(
+          //       onPressed: () {
+          //         confirmDelete(context);
+          //       },
+          //       icon: const Icon(Icons.delete),
+          //       label: const Text("Delete Account"),
+          //       style: ElevatedButton.styleFrom(
+          //         backgroundColor: Colors.red,
+          //         padding: const EdgeInsets.all(16.0),
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(20),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
