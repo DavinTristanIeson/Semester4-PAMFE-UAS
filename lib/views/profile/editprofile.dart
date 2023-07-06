@@ -48,10 +48,9 @@ class EditProfileForm extends StatelessWidget with SnackbarMessenger {
     account.name = state.fields["name"]!.value;
     account.birthdate = state.fields["birthdate"]!.value;
     account.bio = state.fields["bio"]!.value;
-    XFile? profilePicture = state.fields["pfp"]!.value;
-    if (profilePicture != null) {
-      account.pfp = (await saveImage(profilePicture, former: account.pfp)).path;
-    }
+    account.pfp =
+        (await saveImage(state.fields["pfp"]!.value, former: account.pfp))
+            ?.path;
 
     try {
       AccountController.update(account);

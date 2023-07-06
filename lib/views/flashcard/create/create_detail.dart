@@ -33,11 +33,9 @@ class CreateFlashcardSetDetailView extends StatelessWidget {
       title: state.fields["title"]!.value,
       description: state.fields["description"]!.value,
       tags: state.fields["tags"]!.value ?? [],
-      thumbnail: state.fields["thumbnail"]!.value != null
-          ? (await saveImage(state.fields["thumbnail"]!.value,
-                  former: flashcardSet?.thumbnail))
-              .path
-          : null,
+      thumbnail: (await saveImage(state.fields["thumbnail"]!.value,
+              former: flashcardSet?.thumbnail))
+          ?.path,
       isPublic: state.fields["isPublic"]!.value ?? false,
       id: flashcardSet?.id ?? 0,
     );

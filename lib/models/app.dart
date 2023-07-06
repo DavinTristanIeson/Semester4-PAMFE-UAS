@@ -19,6 +19,7 @@ class AppStateProvider extends ChangeNotifier {
   void deleteAccount(String password) {
     if (_account == null) return;
     AccountController.delete(_account!, password);
+    _account = null;
     notifyListeners();
   }
 }

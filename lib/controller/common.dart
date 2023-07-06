@@ -27,7 +27,13 @@ Future<Store> initializeStore() async {
   return store;
 }
 
-Future<File> saveImage(XFile image, {String? former}) async {
+Future<File?> saveImage(XFile? image, {String? former}) async {
+  if (image == null) {
+    if (former != null) {
+      await deleteImage(former);
+    }
+    return null;
+  }
   if (image.path == former) {
     return File(image.path);
   }

@@ -3,7 +3,6 @@ import 'package:memoir/controller/common.dart';
 import 'package:memoir/models/flashcards.dart';
 
 import '../models/account.dart';
-import '../models/common.dart';
 import '../objectbox.g.dart';
 
 class FlashcardsController {
@@ -23,9 +22,9 @@ class FlashcardsController {
   static void delete(FlashcardSet set) {
     store.runInTransaction(TxMode.write, () {
       db.removeMany(set.cards.map<int>((card) => card.id).toList());
-      if (!db.remove(set.id)) {
-        throw UserException(
-            "The flashcard set you're trying to delete doesn't seem to exist?");
+      db.remove(set.id);
+      if (set.thumbnail != null) {
+        deleteImage(set.thumbnail!);
       }
     });
   }

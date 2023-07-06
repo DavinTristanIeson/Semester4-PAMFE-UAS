@@ -50,9 +50,7 @@ class RegisterForm extends StatelessWidget with SnackbarMessenger {
       return;
     }
 
-    account.pfp = state.fields["pfp"]!.value != null
-        ? (await saveImage(state.fields["pfp"]!.value)).path
-        : null;
+    account.pfp = (await saveImage(state.fields["pfp"]!.value))?.path;
     appState.account = account;
   }
 

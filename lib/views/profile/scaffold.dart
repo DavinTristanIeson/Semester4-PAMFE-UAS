@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:memoir/components/display/info.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/account.dart';
 import '../../models/app.dart';
 import '../../models/common.dart';
 import 'changepassword.dart';
@@ -17,70 +18,73 @@ class DeleteAccountDialog extends StatefulWidget {
 class _DeleteAccountDialogState extends State<DeleteAccountDialog>
     with SnackbarMessenger {
   final TextEditingController _passwordController = TextEditingController();
+  bool isDeleting = false;
   String _errorText = "";
-  void _checkPasswordDeleteAcc(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Check Password'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Enter your password',
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
-                  ),
-                ),
-              ],
+  Widget buildCheckPasswordDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Check Password'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          TextField(
+            controller: _passwordController,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Enter your password',
+              errorText: _errorText.isNotEmpty ? _errorText : null,
             ),
-            actions: [
-              TextButton(
-                child: const Text('Cancel'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.red),
-                ),
-                onPressed: () {
-                  String password = _passwordController.text.trim();
-                  if (password.isEmpty) {
-                    setState(() {
-                      _errorText = 'Password is required';
-                    });
-                    return;
-                  }
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          child: const Text('Cancel'),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: const Text(
+            'Delete',
+            style: TextStyle(color: Colors.red),
+          ),
+          onPressed: () {
+            String password = _passwordController.text.trim();
+            if (password.isEmpty) {
+              setState(() {
+                _errorText = 'Password is required';
+              });
+              return;
+            }
 
-                  AppStateProvider appStateProvider =
-                      Provider.of<AppStateProvider>(context, listen: false);
-                  try {
-                    appStateProvider.deleteAccount(password);
-                    appStateProvider.logout();
-                    Navigator.of(context).pop();
-                    sendSuccess(context,
-                        "Account ${appStateProvider.account!.name} has been successfully deleted");
-                  } on UserException catch (e) {
-                    setState(() {
-                      _errorText = e.message;
-                      _passwordController.clear();
-                    });
-                  }
-                },
-              ),
-            ],
-          );
-        });
+            AppStateProvider appStateProvider =
+                Provider.of<AppStateProvider>(context, listen: false);
+            Account account = appStateProvider.account!;
+            try {
+              appStateProvider.deleteAccount(password);
+              Navigator.of(context).pop();
+              sendSuccess(context,
+                  "Account ${account.name} has been successfully deleted");
+            } on UserException catch (e) {
+              setState(() {
+                _errorText = e.message;
+                _passwordController.clear();
+              });
+            }
+          },
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    return isDeleting
+        ? buildCheckPasswordDialog(context)
+        : buildDeleteConfirmationDialog(context);
+  }
+
+  AlertDialog buildDeleteConfirmationDialog(BuildContext context) {
     return AlertDialog(
       title: const Text('Confirm Delete'),
       content: const Text('Are you sure you want to delete your account?'),
@@ -94,8 +98,9 @@ class _DeleteAccountDialogState extends State<DeleteAccountDialog>
         TextButton(
           child: const Text('Next'),
           onPressed: () {
-            Navigator.of(context).pop();
-            _checkPasswordDeleteAcc(context);
+            setState(() {
+              isDeleting = true;
+            });
           },
         ),
       ],

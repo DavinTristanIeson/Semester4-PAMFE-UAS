@@ -47,9 +47,9 @@ class AccountController {
       for (final set in account.flashcards) {
         FlashcardsController.delete(set);
       }
-      if (!db.remove(account.id)) {
-        throw UserException(
-            "The account you're trying to delete doesn't seem to exist?");
+      db.remove(account.id);
+      if (account.pfp != null) {
+        deleteImage(account.pfp!);
       }
     });
   }
