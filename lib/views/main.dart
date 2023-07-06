@@ -71,8 +71,9 @@ class _MainPageState extends State<MainPage> {
         ),
         actions: [
           IconButton(
-            padding: const EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 8.0),
             icon: const Icon(Icons.logout, color: Colors.white),
+            tooltip: 'Logout',
             onPressed: () {
               showLogoutConfirmationDialog(context);
             },
