@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:memoir/helpers/constants.dart';
 import '../../components/display/info.dart';
 import '../../components/wrapper/touchable.dart';
+import '../../controller/account.dart';
 import '../../models/app.dart';
 
 class ChangePasswordPage extends StatefulWidget {
@@ -40,6 +41,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage>
       sendError(context, 'Incorrect current password');
       return;
     }
+    AccountController.update(appState.account!);
 
     state.reset();
     sendSuccess(context, 'Password changed successfully');

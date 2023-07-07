@@ -138,10 +138,14 @@ class _DateTimeInputFieldState extends State<DateTimeInputField> {
                 controller: _controller,
                 decoration: InputDecoration(
                   hintText: widget.placeholder,
-                  border: BORDER_INPUT,
+                  disabledBorder: BORDER_INPUT.copyWith(
+                      borderSide: BorderSide(
+                          width: 1.0, color: Colors.black.withOpacity(0.65))),
                   fillColor: Colors.white,
                   filled: true,
                 ),
+                style:
+                    const TextStyle(fontSize: FS_EMPHASIS, color: Colors.black),
                 readOnly: true,
               ),
             );
