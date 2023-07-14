@@ -48,14 +48,20 @@ class TagsInputField extends StatelessWidget {
                   ),
                   controller: _tagsInput,
                   onSubmitted: (String? newTag) {
-                    if (newTag == null) {
+                    String tag = newTag == null
+                        ? ""
+                        : newTag
+                            .trim()
+                            .replaceAll(RegExp("\\s+"), '-')
+                            .toLowerCase();
+                    if (tag.isEmpty) {
                       return;
-                    } else if (tags.contains(newTag)) {
+                    } else if (tags.contains(tag)) {
                       _tagsInput.clear();
                       _focus.requestFocus();
                       return;
                     }
-                    tags.add(newTag.split(' ').join('-').toLowerCase());
+                    tags.add(tag);
 
                     state.didChange(tags);
                     _tagsInput.clear();
